@@ -39,5 +39,5 @@ def home():
     return render_template('main.html', row_datas=row_datas, column_names=df.columns.tolist(),
                            link_column="image", zip=zip, phrase=phrase)
 
-if __name__ == "__main__":
-    app.run()
+app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
+app_server.serve_forever()
