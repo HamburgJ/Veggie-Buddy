@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, send_file, url_for
 import pandas as pd
 import random
-import gevent.pywsgi
 import os
 from pymongo import MongoClient
 
@@ -41,5 +40,4 @@ def home():
                            link_column="image", zip=zip, phrase=phrase)
 
 if __name__ == "__main__":
-    app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
-    app_server.serve_forever()
+    app.run()
