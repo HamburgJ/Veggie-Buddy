@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+    <title>Veggie Buddy</title>
+    <script src="{{url_for('static', filename='effects.js')}}"></script>
+</head>
+<body>
+    <script language="javascript">
+        function toggle(matchingAttribute) {
+          // optain all div elements in the page
+          var divArray = document.getElementsByTagName("div");
+            for(i=divArray.length-1; i>=0; i--) {  // for each div
+            if(divArray[i].id.match(matchingAttribute)) {
+              if(divArray[i].style.display != 'none') {
+                divArray[i].style.display = 'none';
+              }
+              else {
+                divArray[i].style.display = '';
+              }
+            }
+          }
+        }  // end function toggle()
+    </script>
+    <div class="nav-container">
+        <nav class="navbar">
+            <a id="navbar-logo" href="/">{{ phrase }}</a>
+
+            <label class="checkbox-container">
+                <input type="checkbox" checked onClick="toggle('vegan');">
+                </input>
+                <h3>Vegan Stuff  &#127793;</h3>
+            </label>
+            
+            <label class="checkbox-container">
+                <input type="checkbox" checked onClick="toggle('produce');">
+                </input>
+                <h3>
+                    Produce  &#127827;
+                </h3>
+            </label>
+            
+            <label class="checkbox-container">
+                <input type="checkbox" onClick="toggle('bakery');">
+                    
+                </input>
+                <h3>
+                    Bakery  &#127838;
+                </h3>
+            </label>
+
+            <label class="checkbox-container">
+                <input type="checkbox" onClick="toggle('meat');">
+                    <h3>Meat and Dairy  &#127830;</h3>
+                </input>
+            </label>
+
+            <label class="checkbox-container">
+                <input type="checkbox" onClick="toggle('other');">
+                    <h3>Pantry & Beyond  &#129387;</h3>
+                </input>
+
+            </label>
+        </nav>
+    </div>
+
+    <div class="main">
+        <div class="column-container">
+            {% for df in row_datas %}
+            <div class='column'>
+                {% for d in df %}
+                <div class ='card' 
+                {% if d[0][6] == 'produce' %}
+                    id='produce'
+                {% elif d[0][6] == 'meat' %}
+                    id='meat'
+                    style="display: none;"
+                {% elif d[0][6] == 'bakery' %}
+                    id='bakery'
+                    style="display: none;"
+                {% elif d[0][6] == 'vegan' %}
+                    id='vegan'
+                {% else %}
+                    id='other'
+                    style="display: none;"
+                {% endif %}>
+                    <div class='top'>
+                        <div class='title'>
+                            {{ d[0][0] }}
+                        </div>
+                        <img src="{{ d[0][4] }}">
+                    </div>
+                    {% for row in d %}
+                        <div class='body'
+                        {% if row[11] == 'TRUE' %}
+                            id="{{ 'hiddenresult_' + row[0] }}"
+                        {% endif %}>
+                            <div class='item'
+                            {% if d[0] == row %}
+                                id="bestprice"
+                            {% endif %}>
+                                <div class='texts'>
+                                    <div class='store'>{{ row[3] }}</div>
+                                    <div class='right'>
+                                        <div class='price'>{{ row[2] }}</div>
+                                        <div class='story'>{{ row[5] }}</div>
+                                    </div>
+                                </div>
+                                <div class='name'>{{ row[1] }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class='end' style="clear: right"></div>            
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</body>
+</html>
