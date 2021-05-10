@@ -39,7 +39,7 @@ foods = ['avocados', 'cilantro', 'broccoli', 'tomatoes', 'cantaloupes', 'caulifl
          'apples','cucumbers', 'cabbages', 'jalapeños', 'lemons',
          'blueberries', 'tangelos', 'grapefruits', 'raspberries', 'blackberries', 'strawberries', 'grapes', 
          'yams', 'dates', 'pineapples', 'peppers',
-         'pears', 'celery', 'mangoes', 'watermelons', 'asparagus', 'oranges', 'bananas', 'peaches',
+         'pears', 'celery', 'mangoes', 'watermelons', 'asparagus', 'bananas', 'peaches',
          'plums', 'limes', 'nectarines', 'frozen fruit', 'mushrooms',
          'carrots', 'ginger', 'garlic', 'radishes', 'spinach' ]
 
@@ -354,6 +354,10 @@ for i in range(0, len(df.index)):
     if hasword(name, ['waffles', 'waffle'], ['beglian']):
         df['foods'][i].append('waffles')
         df['food categories'][i].append('other')
+
+    if hasword(name, ['orange', 'oranges'], ['segments', 'canned', 'syrup', 'candy', 'popcicles', 'chicken', 'sauce', 'juice', 'pekoe', 'drink', 'tropicana', 'soda', 'pop', 'sodas', 'sparkling', 'cookie', 'cookies', 'pulp', 'pure', 'marmalade', 'water','fanta', 'tic tac', 'zevia', 'gatorade', 'peel', 'crush', 'jelly', 'jam', 'jello', 'powder', 'crystals', 'tang', 'bar', 'soap', 'shampoo', 'chocolate']):
+        df['foods'][i].append('oranges')
+        df['food categories'][i].append('produce')
     
 
 for i in range(0, len(df.index)):
