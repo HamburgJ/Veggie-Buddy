@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import ftfy
 from nltk.stem import WordNetLemmatizer
+import nltk
 from requests_html import AsyncHTMLSession
 category_map = pd.read_csv('category map.csv')
 
@@ -92,7 +93,7 @@ results = asession.run(
     lambda: get_data('Giant Tiger'),
     lambda: get_data('Walmart'),
 )
-
+nltk.download('wordnet')
 df = pd.concat(results)
 
 # preprocessing
