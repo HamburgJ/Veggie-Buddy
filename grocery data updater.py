@@ -36,7 +36,7 @@ meat_keywords = ['salami', 'turkey', 'sardines','quiche', 'cheese', 'salmon', 'b
                 "i can't believe it's not butter!", 'yop', 'chool whip', 'skyr', 'cheestrings', 'black diamond']
 non_vegan = ['store made','mix and match deal','cheesecake', 'pizza', 'yoplait', 'minigo', 'yogurt', 'hungry-man', 'parmesan', 'baby', 'purée', 'cheez whiz', 'kraft dinner', 'canned tuna', 'online grocery']
 
-foods = ['avocados', 'cilantro', 'broccoli', 'tomatoes', 'cantaloupes', 'cauliflower', 'potatoes', 'mandarins',
+foods = ['avocados', 'cilantro', 'broccoli', 'cantaloupes', 'cauliflower', 'potatoes', 'mandarins',
          'apples','cucumbers', 'cabbages', 'jalapeños', 'lemons',
          'blueberries', 'tangelos', 'grapefruits', 'raspberries', 'blackberries', 'strawberries',
          'yams', 'dates', 'pineapples', 'peppers',
@@ -190,6 +190,9 @@ for i in range(0, len(df.index)):
             df['food categories'][i].append('produce')
         if hasword(name, ['grape tomato', 'grape tomatoes'], ['salad']):
             df['foods'][i].append('grape tomatoes')
+            df['food categories'][i].append('produce')
+        if hasword(name, ['tomatoes', 'tomato'], ['grape', 'grapes', 'salad', 'canned', 'rotel', 'crushed', 'paste', 'sauce', 'sauce']):
+            df['foods'][i].append('tomatoes')
             df['food categories'][i].append('produce')
     
     #becel
