@@ -38,7 +38,7 @@ non_vegan = ['store made','mix and match deal','cheesecake', 'pizza', 'yoplait',
 
 foods = ['avocados', 'cilantro', 'broccoli', 'tomatoes', 'cantaloupes', 'cauliflower', 'potatoes', 'mandarins',
          'apples','cucumbers', 'cabbages', 'jalapeños', 'lemons',
-         'blueberries', 'tangelos', 'grapefruits', 'raspberries', 'blackberries', 'strawberries', 'grapes', 
+         'blueberries', 'tangelos', 'grapefruits', 'raspberries', 'blackberries', 'strawberries',
          'yams', 'dates', 'pineapples', 'peppers',
          'pears', 'celery', 'mangoes', 'watermelons', 'asparagus', 'bananas', 'peaches',
          'plums', 'limes', 'nectarines', 'frozen fruit', 'mushrooms',
@@ -184,6 +184,13 @@ for i in range(0, len(df.index)):
                 re.search('(?:(?<=\s)|(?<=^))'+food+'(?=\s|$|,)', lemmatizer.lemmatize(name))):
                 df['foods'][i].append(food)
                 df['food categories'][i].append('produce')
+        
+        if hasword(name, ['grapes'], ['tomato','tomatoes']):
+            df['foods'][i].append('grapes')
+            df['food categories'][i].append('produce')
+        if hasword(name, ['grape tomato', 'grape tomatoes'], ['salad']):
+            df['foods'][i].append('grape tomatoes')
+            df['food categories'][i].append('produce')
     
     #becel
     if hasword(name, ['becel']):
