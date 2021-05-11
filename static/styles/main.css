@@ -160,7 +160,6 @@ input[type='checkbox']:checked {
     margin-top: 6px;
     margin-bottom: 6px;
     cursor:pointer;
-    background-color: hsl(0, 0%, 98%);
 }
 .navbar {
     align-items: left;
