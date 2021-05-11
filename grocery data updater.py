@@ -390,7 +390,11 @@ for i in range(0,len(row_food_labels)):
         for j in range(0, len(item_df)):   
             if (len(item_df['foods'][j]) < len(item_df['foods'][shortest])):
                 shortest = j
-        final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
+        # fix images for items that are commonly only in multi-items
+        if len(item_df['foods'][shortest]) > 1 and row_food_labels[i] in ['avocados', 'blackberries', 'strawberries', 'raspberries', 'blueberries', 'plums']:
+            final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = "../static/images/" + str(row_food_labels[i]) + ".png"
+        else:
+            final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
 
 # Saving to MongoDB
 
