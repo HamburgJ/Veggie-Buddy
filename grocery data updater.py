@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import ftfy
+import os
 from nltk.stem import WordNetLemmatizer
 import nltk
 from requests_html import AsyncHTMLSession
@@ -400,8 +401,9 @@ for i in range(0,len(row_food_labels)):
 
 from pymongo import MongoClient
 
+
 # Connect to MongoDB
-client =  MongoClient("mongodb+srv://joshi:joshi@cluster0.fns0o.mongodb.net/groceryDatabase?retryWrites=true&w=majority")
+client =  MongoClient(os.environ['MONGODB_URI'])
 db = client['groceryDatabase']
 collection = db['groceryCollection']
 data_dict = final_df.to_dict("records")

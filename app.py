@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     # Connect to MongoDB
-    client =  MongoClient("mongodb+srv://joshi:joshi@cluster0.fns0o.mongodb.net/groceryDatabase?retryWrites=true&w=majority")
+    client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db['groceryCollection']
     df = pd.DataFrame(list(collection.find()))
