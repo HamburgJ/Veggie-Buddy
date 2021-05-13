@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
-    <title>Veggie Buddy</title>
+    <title>veggie buddy</title>
     <script src="{{url_for('static', filename='effects.js')}}"></script>
 </head>
 <body>
@@ -25,42 +25,31 @@
     </script>
     <div class="nav-container">
         <nav class="navbar">
-            <a id="navbar-logo" href="/">veggie buddy</a>
+            <a id="navbar-logo" href="/">veggie buddy - kingston</a>
 
             <label class="checkbox-container">
-                <input type="checkbox" checked onClick="toggle('vegan');">
-                </input>
+                <input type="checkbox" checked onClick="toggle('vegan');"></input>
                 <h3>Vegan Stuff  &#127793;</h3>
             </label>
             
             <label class="checkbox-container">
-                <input type="checkbox" checked onClick="toggle('produce');">
-                </input>
-                <h3>
-                    Produce  &#127827;
-                </h3>
+                <input type="checkbox" checked onClick="toggle('produce');"></input>
+                <h3>Produce  &#127827;</h3>
             </label>
             
             <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('bakery');">
-                    
-                </input>
-                <h3>
-                    Bakery  &#127838;
-                </h3>
+                <input type="checkbox" onClick="toggle('bakery');"></input>
+                <h3>Bakery  &#127838;</h3>
             </label>
 
             <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('meat');">
-                    <h3>Meat and Dairy  &#127830;</h3>
-                </input>
+                <input type="checkbox" onClick="toggle('meat');"></input>
+                <h3>Meat and Dairy  &#127830;</h3>
             </label>
 
             <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('other');">
-                    <h3>Pantry & Beyond  &#129387;</h3>
-                </input>
-
+                <input type="checkbox" onClick="toggle('other');"></input>
+                <h3>Pantry & Beyond  &#129387;</h3>
             </label>
         </nav>
     </div>
@@ -116,8 +105,7 @@
                 {% endfor %}
             </div>
             {% endfor %}
-        </div>
-        
+        </div>  
     </div>
 </body>
 </html>

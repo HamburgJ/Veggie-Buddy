@@ -28,7 +28,7 @@ vegan_keywords = ['violife','daiya','gardein','silk','yves', 'just plant', 'plan
             'almond milk', 'seitan', 'veggie ground', 'veggie meat', 'meat replacement',
             "chick'n", 'vio life', 'unmeatable', 'nut cheese', 'cashew cheese', 'cashew spread', 'big mountain',
             'tofurky', 'chao', 'sweets from the earth', 'earth island', 'cashew dip', 'zhoug', 'crabless', 'fishless', 'miyokos', "miyoko's",
-            'miyoko', 'nuts for cheese', 'fauxmagerie', 'vegetarian', 'non-dairy', 'dairy free', 'larabar', 'clif',
+            'miyoko', 'nuts for cheese', 'fauxmagerie', 'vegetarian', 'non-dairy', 'dairy free',
             'nuts for butter', 'becel', 'beyond burger', 'beyond sausage', 'beyond chicken', 'beyond ground', 'beyond beef', 'meatless']
 
 meat_keywords = ['salami', 'turkey', 'sardines','quiche', 'cheese', 'salmon', 'bacon', 'beef', 'chicken', 'ice cream', 'milk', 'yogurt', 'cream', 'egg', 'eggs',
@@ -192,7 +192,7 @@ for i in range(0, len(df.index)):
         df['foods'][i].append('coffee')
         df['food categories'][i].append('other')
     #milk
-    if hasword(name, ['coconut dream','silk','blue diamond','almond milk','oat yeah','soy milk','soy beverage','almond beverage','oat beverage']):
+    if hasword(name, ['coconut dream','silk','blue diamond','almond milk','oat yeah','soy milk','soy beverage','almond beverage','oat beverage','oat milk','almond milk', 'cashew milk'], ['becel', 'pudding']):
         df['foods'][i].append('nut milk')
         df['food categories'][i].append('vegan')
     #coke
