@@ -5,9 +5,11 @@ import os
 from nltk.stem import WordNetLemmatizer
 import nltk
 from requests_html import AsyncHTMLSession
+from pymongo import MongoClient
+
+# Data
 category_map = pd.read_csv('category map.csv')
 
-stores = ['Food Basics', 'FreshCo', "Metro", "Loblaws", "No Frills", "Giant Tiger", 'Walmart']
 websites = {
     'Food Basics' : 'https://ecirculaire.foodbasics.ca/flyers/foodbasics-flyer/grid_view/661019',
     'FreshCo' : 'https://flyers.freshco.com/flyers/freshco-flyer/grid_view/656515',
@@ -17,23 +19,23 @@ websites = {
     "Giant Tiger": 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
     'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584'
 }
-## keywords for sorting into brands and vegan
-store_brands = ['selection', 'irresistibles', 'compliments', 'no name', 'pc', 'giant value', 'great value', 
-                "president's choice", 'best buy', 'presidents choice', 'president choice', 
-                'naturally imperfect', 'blue menu', 'your fresh market','carnaby sweet']
+
+stores = ['Food Basics', 'FreshCo', "Metro", "Loblaws", "No Frills", "Giant Tiger", 'Walmart']
+
 vegan_keywords = ['violife','daiya','gardein','silk','yves', 'just plant', 'plant egg', 'just egg', 'plant based', 'beefless', 'cheese-style', 'chickenless',
             'beyond meat', 'sol cuisine', 'earths own', 'blue diamond', 'boca', 'sunrise soya', 'fontaine', 'sunrise soft', 'lightlife',
-            'field roast', 'so delicious', 'oat yeah', 'plant-based', 'vegan', 'vegetalien', 'tofu', 'wholly veggie', 'zoglos', 'tempeh',
-            'almond milk', 'seitan', 'veggie ground', 'veggie meat', 'meat replacement', 'vegtable broth', 'hippie snacks',
+            'field roast', 'so delicious', 'oat yeah', 'plant-based', 'plant based', 'vegan', 'vegetalien', 'tofu', 'wholly veggie', 'zoglos', 'tempeh',
+            'almond milk', 'seitan', 'veggie ground', 'veggie meat', 'meat replacement',
             "chick'n", 'vio life', 'unmeatable', 'nut cheese', 'cashew cheese', 'cashew spread', 'big mountain',
             'tofurky', 'chao', 'sweets from the earth', 'earth island', 'cashew dip', 'zhoug', 'crabless', 'fishless', 'miyokos', "miyoko's",
             'miyoko', 'nuts for cheese', 'fauxmagerie', 'vegetarian', 'non-dairy', 'dairy free', 'larabar', 'clif',
-            'nuts for butter', 'becel', 'beyond burger', 'beyond sausage', 'beyond chicken', 'beyound ground', 'beyond beef']
+            'nuts for butter', 'becel', 'beyond burger', 'beyond sausage', 'beyond chicken', 'beyond ground', 'beyond beef', 'meatless']
 
 meat_keywords = ['salami', 'turkey', 'sardines','quiche', 'cheese', 'salmon', 'bacon', 'beef', 'chicken', 'ice cream', 'milk', 'yogurt', 'cream', 'egg', 'eggs',
                 'danone', 'activia', 'butter', 'pizza', 'hungry-man', 'honey', 'rinds', 'cake', 'whites', 'fish',
                 'yogourt', 'yoplait', 'fillets', 'steak', 'parlour', 'pogo', 'entrees', 'iögo', 'crema', 'nestlé pouches',
                 "i can't believe it's not butter!", 'yop', 'chool whip', 'skyr', 'cheestrings', 'black diamond']
+
 non_vegan = ['store made','mix and match deal','cheesecake', 'pizza', 'yoplait', 'minigo', 'yogurt', 'hungry-man', 'parmesan', 'baby', 'purée', 'cheez whiz', 'kraft dinner', 'canned tuna', 'online grocery']
 
 foods = ['avocados', 'cilantro', 'broccoli', 'cantaloupes', 'cauliflower', 'potatoes', 'mandarins',
@@ -44,10 +46,7 @@ foods = ['avocados', 'cilantro', 'broccoli', 'cantaloupes', 'cauliflower', 'pota
          'plums', 'limes', 'nectarines', 'frozen fruit', 'mushrooms',
          'carrots', 'ginger', 'garlic', 'radishes', 'spinach' ]
 
-food_images = ['https://assets.shop.loblaws.ca/products/20142232001/b1/en/front/20142232001_front_a01_@2.png']
-
-conditional=[ 'dairy','frozen','meat']
-
+# Checks if any of the postitive words are in the string and none of the negative are
 def hasword(string, positive, negative=[]):
     if negative != []:
         if (re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string)
@@ -58,6 +57,7 @@ def hasword(string, positive, negative=[]):
             return True
     return False
 
+# Processing website item data to dataframe
 async def get_data(store):
     r = await asession.get(websites[store], params = { 'postal_code' : 'M5R2A7', 'locale' : 'en', 'type' : 1})
     category = 2
@@ -97,14 +97,14 @@ results = asession.run(
 nltk.download('wordnet')
 df = pd.concat(results)
 
-# preprocessing
+# Preprocessing
 df['category'] = df['category'].str[9:]
 df['name'] = [ftfy.fix_text(str(x).lower()).replace("®","").replace('mangos', "mangoes").replace("sweet potatoes", "yams").replace("jalapeño pepper", "jalepeno").replace('chili pepper','chili').replace('clementine', 'orange').replace('mandarin','orange').replace('salads','salad') for x in df['name']]
 df['price'] = [ftfy.fix_text(str(x).lower()).replace("¢", "").replace('or less than 2', 'or').replace('or less than 3', 'or').replace('or less than 4', 'or').replace('or less than 5', 'or').replace('or less than 6', 'or').replace('less than 2', 'or').replace('less than 3', 'or').replace('less than 4', 'or').replace('less than 5', 'or').replace('less than 6', 'or').replace('each', 'ea.').replace(' ea.', "").replace(' or /lb', "").replace('/lb', 'lb').replace(" .", " $0.").replace(' ea', '').replace(" for", "/").replace(' ealb', '').replace('lb.','lb') for x in df['price']]
 df['story'] = [ftfy.fix_text(str(x).lower()) for x in df['story']]
 df.dropna(subset=['price', 'story'], inplace=True)
 
-# reformat consistant categories
+# Fix categories to be consistant across stores
 group1s = []
 group2s = []
 cats = list(category_map['category'])
@@ -126,8 +126,7 @@ df.drop_duplicates(inplace=True, subset=['name','price','store'])
 df.reset_index(inplace=True,drop=True)
 
 
-# detect brand names and vegan keywords
-df['storebrands'] = ["FALSE" for x in range(0, len(df.index))]
+# Detect items with meat or vegan keywords and fix categories
 df['vegan'] = ["FALSE" for x in range(0, len(df.index))]
 
 for i in range(len(df.index)-1):
@@ -140,20 +139,7 @@ for i in range(len(df.index)-1):
             df['category 2'][i] = 'vegan'
 
 
-# detect size information
-df['size'] = ["" for x in range(0, len(df.index))]
-
-for i in range(0, len(df.index)):
-    size = re.search("(?:(?<=\s)|(?<=^)?)(?:[,]?)(?:(?<=\s)|(?<=^))(?:[0-9-]+)\s?(?:mg|g|kg|ml|l|oz|lb|lbs|\"|inch|cm)(?=\s|$)", str(df['name'][i]))
-    try:
-        size.group(1)
-    except IndexError:
-        sizename = str(size.group(0))
-        df['size'][i] = sizename
-    except AttributeError:
-        pass
-
-# get price info
+# Fix pricing info
 prices = [0 for x in range(len(df.index))]
 for i in range(0, len(df.index)):
     string = df['price'][i]
@@ -174,7 +160,9 @@ df['foods'] = [[] for x in range(0, len(df.index))]
 df['food categories'] = [[] for x in range(0, len(df.index))]
 
 lemmatizer = WordNetLemmatizer()
-# detect food items
+
+# Detect individual food items
+# This is done because some item contain multiple different products, so multiple products may be split off from one item
 for i in range(0, len(df.index)):
     name = df['name'][i]
     if (df['category 2'][i] == "produce") or (df['store'][i] in ['Food Basics','Giant Tiger'] and df['category 2'][i] == 'none'):
@@ -240,7 +228,7 @@ for i in range(0, len(df.index)):
         df['foods'][i].append('salad dressing')
         df['food categories'][i].append('other')
 
-    if hasword(name, ['salad', 'salads'], ['dressing', 'dressings', 'fruit salad']):
+    if hasword(name, ['salad', 'salads'], ['dressing', 'dressings', 'fruit salad', 'salad mix', 'pasta salad']):
         df['foods'][i].append('salad')
         df['food categories'][i].append('produce')
     
@@ -362,7 +350,7 @@ for i in range(0, len(df.index)):
         df['foods'][i].append('tofu')
         df['food categories'][i].append('vegan')
     
-    if hasword(name, ['waffles', 'waffle'], ['beglian']):
+    if hasword(name, ['waffles', 'waffle', 'eggo'], ['beglian']):
         df['foods'][i].append('waffles')
         df['food categories'][i].append('other')
 
@@ -370,12 +358,13 @@ for i in range(0, len(df.index)):
         df['foods'][i].append('oranges')
         df['food categories'][i].append('produce')
     
-
+# If no products are found in an item, the product will just be the item name
 for i in range(0, len(df.index)):
     if df['foods'][i] == []:
         df['foods'][i] = [df['name'][i]]
         df['food categories'][i] = [df['category 2'][i]]
 
+# Create new df based on products
 rows = []
 row_food_labels = []
 category_labels = []
@@ -385,14 +374,14 @@ for i in range(0, len(df.index)):
         row_food_labels.append(df['foods'][i][j])
         category_labels.append(df['food categories'][i][j])
 
-final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','storebrands','vegan','size','foods', 'real price'])
+final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','vegan','foods','real price'])
 final_df['name'] = [x.capitalize() for x in final_df['name']]
 final_df.insert(loc=0, column="category", value=category_labels)
 final_df.insert(loc=0, column="item", value=row_food_labels)
 final_df.sort_values(inplace=True, by=['real price'])
 final_df.reset_index(drop=True,inplace=True)
 
-# fix image to be of item with fewest foods found
+# To avoid incorrect images from multi-items, choose the image from the item with the fewest products detected
 for i in range(0,len(row_food_labels)):
     item_df = pd.DataFrame(final_df.loc[final_df['item'] == row_food_labels[i]], columns = ['foods','image'])
     item_df.reset_index(inplace=True, drop=True)
@@ -401,16 +390,12 @@ for i in range(0,len(row_food_labels)):
         for j in range(0, len(item_df)):   
             if (len(item_df['foods'][j]) < len(item_df['foods'][shortest])):
                 shortest = j
-        # fix images for items that are commonly only in multi-items
+
+        # Fix special-case images for items that are commonly only in multi-items
         if len(item_df['foods'][shortest]) > 1 and row_food_labels[i] in ['avocados', 'blackberries', 'strawberries', 'raspberries', 'blueberries', 'plums']:
             final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = "../static/images/" + str(row_food_labels[i]) + ".png"
         else:
             final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
-
-# Saving to MongoDB
-
-from pymongo import MongoClient
-
 
 # Connect to MongoDB
 client =  MongoClient(os.environ['MONGODB_URI'])
@@ -421,4 +406,5 @@ data_dict = final_df.to_dict("records")
 # Reset and Insert collection
 collection.delete_many({})
 collection.insert_many(data_dict)
-print('done?')
+
+print('Grocery data update complete!')
