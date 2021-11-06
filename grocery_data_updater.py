@@ -6,94 +6,24 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 from requests_html import AsyncHTMLSession
 from pymongo import MongoClient
+from constants import *
+from updater_functions import *
 
 # Data
 category_map = pd.read_csv('category map.csv')
 
-websites = {
-    'Food Basics' : 'https://ecirculaire.foodbasics.ca/flyers/foodbasics-flyer/grid_view/661019',
-    'FreshCo' : 'https://flyers.freshco.com/flyers/freshco-flyer/grid_view/656515',
-    "Metro" :  'https://ecirculaire.metro.ca/flyers/metro-flyer/grid_view/663149',
-    "Loblaws": 'https://flyers.loblaws.ca/flyers/loblaws-dryrun/grid_view/650023',
-    "No Frills": 'https://flyers.nofrills.ca/flyers/nofrills-weeklyflyer/grid_view/650453',
-    "Giant Tiger": 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
-    'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584'
-}
+session = AsyncHTMLSession()
 
-stores = ['Food Basics', 'FreshCo', "Metro", "Loblaws", "No Frills", "Giant Tiger", 'Walmart']
-
-vegan_keywords = ['violife','daiya','gardein','silk','yves', 'just plant', 'plant egg', 'just egg', 'plant based', 'beefless', 'cheese-style', 'chickenless',
-            'beyond meat', 'sol cuisine', 'earths own', 'blue diamond', 'boca', 'sunrise soya', 'fontaine', 'sunrise soft', 'lightlife',
-            'field roast', 'so delicious', 'oat yeah', 'plant-based', 'plant based', 'vegan', 'vegetalien', 'tofu', 'wholly veggie', 'zoglos', 'tempeh',
-            'almond milk', 'seitan', 'veggie ground', 'veggie meat', 'meat replacement',
-            "chick'n", 'vio life', 'unmeatable', 'nut cheese', 'cashew cheese', 'cashew spread', 'big mountain',
-            'tofurky', 'chao', 'sweets from the earth', 'earth island', 'cashew dip', 'zhoug', 'crabless', 'fishless', 'miyokos', "miyoko's",
-            'miyoko', 'nuts for cheese', 'fauxmagerie', 'vegetarian', 'non-dairy', 'dairy free',
-            'nuts for butter', 'becel', 'beyond burger', 'beyond sausage', 'beyond chicken', 'beyond ground', 'beyond beef', 'meatless']
-
-meat_keywords = ['salami', 'turkey', 'sardines','quiche', 'cheese', 'salmon', 'bacon', 'beef', 'chicken', 'ice cream', 'milk', 'yogurt', 'cream', 'egg', 'eggs',
-                'danone', 'activia', 'butter', 'pizza', 'hungry-man', 'honey', 'rinds', 'cake', 'whites', 'fish',
-                'yogourt', 'yoplait', 'fillets', 'steak', 'parlour', 'pogo', 'entrees', 'iögo', 'crema', 'nestlé pouches',
-                "i can't believe it's not butter!", 'yop', 'chool whip', 'skyr', 'cheestrings', 'black diamond']
-
-non_vegan = ['store made','mix and match deal','cheesecake', 'pizza', 'yoplait', 'minigo', 'yogurt', 'hungry-man', 'parmesan', 'baby', 'purée', 'cheez whiz', 'kraft dinner', 'canned tuna', 'online grocery']
-
-foods = ['avocados', 'cilantro', 'broccoli', 'cantaloupes', 'cauliflower', 'potatoes', 'mandarins',
-         'apples','cucumbers', 'cabbages', 'jalapeños', 'lemons',
-         'blueberries', 'tangelos', 'grapefruits', 'raspberries', 'blackberries', 'strawberries',
-         'yams', 'dates', 'pineapples', 'peppers',
-         'pears', 'celery', 'mangoes', 'watermelons', 'asparagus', 'bananas', 'peaches',
-         'plums', 'limes', 'nectarines', 'frozen fruit', 'mushrooms',
-         'carrots', 'ginger', 'garlic', 'radishes', 'spinach' ]
-
-# Checks if any of the postitive words are in the string and none of the negative are
-def hasword(string, positive, negative=[]):
-    if negative != []:
-        if (re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string)
-            and not re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(negative)+')(?=\s|$|,)', string)):
-                return True
-    else:
-        if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string):
-            return True
-    return False
-
-# Processing website item data to dataframe
-async def get_data(store):
-    r = await asession.get(websites[store], params = { 'postal_code' : 'M5R2A7', 'locale' : 'en', 'type' : 1})
-    category = 2
-    rows = []
-    while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
-        category_name = r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')[0].attrs['class'][0]
-
-        imgs = [x.attrs['src'] for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[1]/div/a/img')]
-        prices = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[3]')]                                                        
-        stories = [x.text.replace('nan', "") for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[2]')]
-        names = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[4]')]
-        this_stores = [store for x in range(len(imgs))]
-        categories = [category_name for x in range(len(imgs))]
-
-        rows.append(pd.DataFrame({'name' : names,
-                                 'price' : prices,
-                                 'store': this_stores,
-                                 'image' : imgs,
-                                 'story' : stories,
-                                 'category': categories}))
-        category = category + 1
-
-    store_data = pd.concat(rows)
-    return store_data
-
-asession = AsyncHTMLSession()
-
-results = asession.run(
-    lambda: get_data('Food Basics'),
-    lambda: get_data('FreshCo'),
-    lambda: get_data('Metro'), 
-    lambda: get_data('Loblaws'),
-    lambda: get_data('No Frills'),
-    lambda: get_data('Giant Tiger'),
-    lambda: get_data('Walmart'),
+results = session.run(
+    lambda: get_data('Food Basics', session),
+    lambda: get_data('FreshCo', session),
+    lambda: get_data('Metro', session), 
+    lambda: get_data('Loblaws', session),
+    lambda: get_data('No Frills', session),
+    lambda: get_data('Giant Tiger', session),
+    lambda: get_data('Walmart', session),
 )
+
 nltk.download('wordnet')
 df = pd.concat(results)
 
@@ -398,6 +328,7 @@ for i in range(0,len(row_food_labels)):
             final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
 
 # Connect to MongoDB
+'''
 client =  MongoClient(os.environ['MONGODB_URI'])
 db = client['groceryDatabase']
 collection = db['groceryCollection']
@@ -406,5 +337,7 @@ data_dict = final_df.to_dict("records")
 # Reset and Insert collection
 collection.delete_many({})
 collection.insert_many(data_dict)
+'''
+final_df.to_csv('grocery data processed.csv')
 
 print('Grocery data update complete!')
