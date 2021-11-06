@@ -14,8 +14,13 @@ def hasword(string, positive, negative=[]):
     return False
 
 # Processing website item data to dataframe
-async def get_data(store, asession):
-    r = await asession.get(websites[store], params = { 'postal_code' : 'M5R2A7', 'locale' : 'en', 'type' : 1})
+async def get_data(store, postal_code, city, asession):
+    params = {
+        'postal_code': postal_code,
+        'locale' : 'en',
+        'type' : 1
+    }
+    r = await asession.get(websites[store], params=params)
     category = 2
     rows = []
     while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
@@ -27,14 +32,23 @@ async def get_data(store, asession):
         names = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[4]')]
         this_stores = [store for x in range(len(imgs))]
         categories = [category_name for x in range(len(imgs))]
+        this_locations = [city for x in range(len(imgs))]
 
-        rows.append(pd.DataFrame({'name' : names,
-                                 'price' : prices,
-                                 'store': this_stores,
-                                 'image' : imgs,
-                                 'story' : stories,
-                                 'category': categories}))
-        category = category + 1
+        column_dict = {
+            'name' : names,
+            'price' : prices,
+            'store': this_stores,
+            'image' : imgs,
+            'story' : stories,
+            'category': categories,
+            'location': this_locations
+        }
 
-    store_data = pd.concat(rows)
-    return store_data
+        rows.append(pd.DataFrame(column_dict))
+        category += 1
+
+    if len(rows) > 0:
+        store_data = pd.concat(rows)
+        return store_data
+
+    return pd.DataFrame()

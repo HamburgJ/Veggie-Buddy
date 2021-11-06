@@ -12,17 +12,14 @@ from updater_functions import *
 # Data
 category_map = pd.read_csv('category map.csv')
 
-session = AsyncHTMLSession()
+asession = AsyncHTMLSession()
 
-results = session.run(
-    lambda: get_data('Food Basics', session),
-    lambda: get_data('FreshCo', session),
-    lambda: get_data('Metro', session), 
-    lambda: get_data('Loblaws', session),
-    lambda: get_data('No Frills', session),
-    lambda: get_data('Giant Tiger', session),
-    lambda: get_data('Walmart', session),
-)
+results = []
+
+for city, postal_code in postal_codes.items():
+    r = asession.run( *[lambda store=store: get_data(store, postal_code, city, asession) for store in websites])
+    for data in r:
+        results.append(data)
 
 nltk.download('wordnet')
 df = pd.concat(results)
@@ -52,7 +49,7 @@ df['category 2'] = group2s
 df = df[df['category'] != 'delete']
 
 df.reset_index(inplace=True,drop=True)
-df.drop_duplicates(inplace=True, subset=['name','price','store'])
+df.drop_duplicates(inplace=True, subset=['name','price','store','location'])
 df.reset_index(inplace=True,drop=True)
 
 
@@ -304,7 +301,7 @@ for i in range(0, len(df.index)):
         row_food_labels.append(df['foods'][i][j])
         category_labels.append(df['food categories'][i][j])
 
-final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','vegan','foods','real price'])
+final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','vegan','foods','real price','location'])
 final_df['name'] = [x.capitalize() for x in final_df['name']]
 final_df.insert(loc=0, column="category", value=category_labels)
 final_df.insert(loc=0, column="item", value=row_food_labels)

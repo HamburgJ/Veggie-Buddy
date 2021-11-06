@@ -1,20 +1,20 @@
 websites = {
-    'Food Basics' : 'https://ecirculaire.foodbasics.ca/flyers/foodbasics-flyer/grid_view/661019',
-    'FreshCo' : 'https://flyers.freshco.com/flyers/freshco-flyer/grid_view/656515',
-    "Metro" :  'https://ecirculaire.metro.ca/flyers/metro-flyer/grid_view/663149',
-    "Loblaws": 'https://flyers.loblaws.ca/flyers/loblaws-dryrun/grid_view/650023',
-    "No Frills": 'https://flyers.nofrills.ca/flyers/nofrills-weeklyflyer/grid_view/650453',
-    "Giant Tiger": 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
+    'Food Basics': 'https://ecirculaire.foodbasics.ca/flyers/foodbasics-flyer/grid_view/661019',
+    'FreshCo': 'https://flyers.freshco.com/flyers/freshco-flyer/grid_view/656515',
+    'Metro':  'https://ecirculaire.metro.ca/flyers/metro-flyer/grid_view/663149',
+    'Loblaws': 'https://flyers.loblaws.ca/flyers/loblaws-dryrun/grid_view/650023',
+    'No Frills': 'https://flyers.nofrills.ca/flyers/nofrills-weeklyflyer/grid_view/650453',
+    'Giant Tiger': 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
     'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584'
 }
 
 stores = [
     'Food Basics',
     'FreshCo', 
-    "Metro", 
-    "Loblaws", 
-    "No Frills", 
-    "Giant Tiger", 
+    'Metro', 
+    'Loblaws', 
+    'No Frills', 
+    'Giant Tiger', 
     'Walmart'
 ]
 
@@ -71,7 +71,8 @@ vegan_keywords = [
     'zhoug',
     'crabless',
     'fishless',
-    'miyokos', "miyoko's",
+    'miyokos',
+    "miyoko's",
     'miyoko',
     'nuts for cheese',
     'fauxmagerie',
@@ -190,3 +191,22 @@ foods = [
     'radishes',
     'spinach'
 ]
+
+postal_codes = {
+    'Kingston': 'K7L3Y2',
+    'Guelph': 'N1E2L8',
+    'Ottawa': 'K2A1A1',
+    'Smiths Falls': 'K7A1A1',
+    'Cornwall': 'K6J1A1',
+    'Mississuaga': 'L5A1A1',
+    'Richmond Hill': 'L4C1A1',
+    'Ajax': 'L1Z1A1',
+    'Toronto': 'M5A1A1',
+    'Scarborough': 'M1B1A1',
+    'Etobicoke': 'M8Z1A1',
+    'London': 'N6A1A1',
+    'Waterloo': 'N2J1A1',
+    'Kitchener': 'N2N1A1',
+    'Sault Ste. Marie': 'P6B1A1',
+    'Thunder Bay': 'P7C1A1'
+}
