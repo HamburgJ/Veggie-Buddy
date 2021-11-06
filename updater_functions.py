@@ -17,11 +17,14 @@ def hasword(string, positive, negative=[]):
 
 # Processing website item data to dataframe
 async def get_data(store, postal_code, city):
-    params = {
-        'postal_code': postal_code,
-        'locale' : 'en',
-        'type' : 1
-    }
+    if store != 'Farmboy':
+        params = {
+            'postal_code': postal_code,
+            'locale' : 'en',
+            'type' : 1
+        }
+    else:
+        params = {}
     #print('getting a data')
     start = time.time()
     r = await AsyncHTMLSession().get(websites[store], params=params)
@@ -52,7 +55,7 @@ async def get_data(store, postal_code, city):
         category += 1
 
     #print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
-    
+
     if len(rows) > 0:
         store_data = pd.concat(rows)
         return store_data

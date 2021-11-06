@@ -5,7 +5,11 @@ websites = {
     'Loblaws': 'https://flyers.loblaws.ca/flyers/loblaws-dryrun/grid_view/650023',
     'No Frills': 'https://flyers.nofrills.ca/flyers/nofrills-weeklyflyer/grid_view/650453',
     'Giant Tiger': 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
-    'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584'
+    'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584',
+    'Shoppers Drug Mart': 'https://flyers.shoppersdrugmart.ca/flyers/shoppersdrugmart/grid_view/650453?is_store_selection=true',
+    'Real Canadian Superstore': 'https://flyers.realcanadiansuperstore.ca/flyers/realcanadiansuperstore/grid_view/650453',
+    'Sobeys': 'https://flyers.sobeys.com/flyers/sobeys-flyer/grid_view/656515',
+    'Foodland': 'https://flyers.sobeys.com/flyers/foodland-flyer/grid_view/660825'
 }
 
 stores = [
@@ -191,7 +195,7 @@ foods = [
     'radishes',
     'spinach'
 ]
-'''
+
 postal_codes = {
     'Kingston': 'K7L3Y2',
     'Guelph': 'N1E2L8',
@@ -210,8 +214,9 @@ postal_codes = {
     'Sault Ste. Marie': 'P6B1A1',
     'Thunder Bay': 'P7C1A1'
 }
-'''
 
+'''
 postal_codes = {
     'Kingston': 'K7L3Y2'
 }
+'''
