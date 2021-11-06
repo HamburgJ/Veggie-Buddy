@@ -16,10 +16,13 @@ asession = AsyncHTMLSession()
 
 results = []
 
+to_run = []
 for city, postal_code in postal_codes.items():
-    r = asession.run( *[lambda store=store: get_data(store, postal_code, city, asession) for store in websites])
-    for data in r:
-        results.append(data)
+    to_run = to_run + [lambda store=store, city=city, postal_code=postal_code: get_data(store, postal_code, city) for store in websites]
+
+r = asession.run( *to_run)
+for data in r:
+    results.append(data)
 
 nltk.download('wordnet')
 df = pd.concat(results)

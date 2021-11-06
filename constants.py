@@ -191,7 +191,7 @@ foods = [
     'radishes',
     'spinach'
 ]
-
+'''
 postal_codes = {
     'Kingston': 'K7L3Y2',
     'Guelph': 'N1E2L8',
@@ -209,4 +209,9 @@ postal_codes = {
     'Kitchener': 'N2N1A1',
     'Sault Ste. Marie': 'P6B1A1',
     'Thunder Bay': 'P7C1A1'
+}
+'''
+
+postal_codes = {
+    'Kingston': 'K7L3Y2'
 }

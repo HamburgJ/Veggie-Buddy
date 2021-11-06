@@ -1,6 +1,8 @@
 import re
 from constants import *
 import pandas as pd
+import time
+from requests_html import AsyncHTMLSession
 
 # Checks if any of the postitive words are in the string and none of the negative are
 def hasword(string, positive, negative=[]):
@@ -14,13 +16,15 @@ def hasword(string, positive, negative=[]):
     return False
 
 # Processing website item data to dataframe
-async def get_data(store, postal_code, city, asession):
+async def get_data(store, postal_code, city):
     params = {
         'postal_code': postal_code,
         'locale' : 'en',
         'type' : 1
     }
-    r = await asession.get(websites[store], params=params)
+    #print('getting a data')
+    start = time.time()
+    r = await AsyncHTMLSession().get(websites[store], params=params)
     category = 2
     rows = []
     while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
@@ -47,6 +51,8 @@ async def get_data(store, postal_code, city, asession):
         rows.append(pd.DataFrame(column_dict))
         category += 1
 
+    #print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
+    
     if len(rows) > 0:
         store_data = pd.concat(rows)
         return store_data
