@@ -6,10 +6,20 @@ websites = {
     'No Frills': 'https://flyers.nofrills.ca/flyers/nofrills-weeklyflyer/grid_view/650453',
     'Giant Tiger': 'https://eflyers.gianttiger.com/flyers/gianttiger-weeklyflyer/grid_view/650424',
     'Walmart': 'https://flyers.walmart.ca/flyers/walmartcanada-groceryflyer/grid_view/651584',
-    'Shoppers Drug Mart': 'https://flyers.shoppersdrugmart.ca/flyers/shoppersdrugmart/grid_view/650453?is_store_selection=true',
+    'Shoppers Drug Mart': 'https://flyers.shoppersdrugmart.ca/flyers/shoppersdrugmart/grid_view/650453',
     'Real Canadian Superstore': 'https://flyers.realcanadiansuperstore.ca/flyers/realcanadiansuperstore/grid_view/650453',
     'Sobeys': 'https://flyers.sobeys.com/flyers/sobeys-flyer/grid_view/656515',
-    'Foodland': 'https://flyers.sobeys.com/flyers/foodland-flyer/grid_view/660825'
+    'Foodland': 'https://flyers.sobeys.com/flyers/foodland-flyer/grid_view/660825',
+    'Zehrs': 'https://flyers.zehrs.ca/flyers/zehrs-weeklyflyer/grid_view/650155',
+    'Fortinos': 'https://flyers.fortinos.ca/flyers/fortinos-dryrun/grid_view/650044',
+    'Valumart': 'https://flyers.valumart.ca/flyers/valumart-dryrun/grid_view/650044',
+    'T&T': 'https://flyers.loblaws.ca/flyers/tntsupermarket-dryrun/grid_view/650044',
+    'Freshmart': 'https://flyers.loblaws.ca/flyers/freshmart-dryrun/grid_view/650044',
+    'Independent': 'https://flyers.loblaws.ca/flyers/yourindependentgrocer-dryrun/grid_view/650044',
+    'Super C': 'https://ecirculaire.metro.ca/flyers/superc-flyer/grid_view/663149',
+    'Extra Foods': 'https://flyers.loblaws.ca/flyers/extrafoods-dryrun/grid_view/650044',
+    'Farm Boy': 'https://flyers.sobeys.com/flyers/farmboy-flyer/grid_view/656515',
+    'Longos': 'https://flyers.sobeys.com/flyers/longos-flyer/grid_view/656515'
 }
 
 stores = [

@@ -9,16 +9,19 @@ from pymongo import MongoClient
 from constants import *
 from updater_functions import *
 
-# Data
+# Category mappings from pulled data to grocerybuddy database
 category_map = pd.read_csv('category map.csv')
 
-asession = AsyncHTMLSession()
+# Get data
+asession = AsyncHTMLSession(workers=200)
 
 results = []
-
 to_run = []
 for city, postal_code in postal_codes.items():
-    to_run = to_run + [lambda store=store, city=city, postal_code=postal_code: get_data(store, postal_code, city) for store in websites]
+    to_run = to_run + [lambda store=store,
+                              city=city, 
+                              postal_code=postal_code, 
+                              session=asession: get_data(store, postal_code, city, session) for store in websites]
 
 r = asession.run( *to_run)
 for data in r:
@@ -338,6 +341,15 @@ data_dict = final_df.to_dict("records")
 collection.delete_many({})
 collection.insert_many(data_dict)
 '''
-final_df.to_csv('grocery data processed.csv')
+
+
+client = MongoClient("mongodb+srv://dbtester:joshi@cluster0.7g7oh.mongodb.net/groceryDatabase?retryWrites=true&w=majority")
+db = client['groceryDatabase']
+collection = db['groceryCollection']
+data_dict = final_df.to_dict("records")
+
+# Reset and Insert collection
+collection.delete_many({})
+collection.insert_many(data_dict)
 
 print('Grocery data update complete!')

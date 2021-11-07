@@ -16,7 +16,7 @@ def hasword(string, positive, negative=[]):
     return False
 
 # Processing website item data to dataframe
-async def get_data(store, postal_code, city):
+async def get_data(store, postal_code, city, session):
     if store != 'Farmboy':
         params = {
             'postal_code': postal_code,
@@ -27,37 +27,40 @@ async def get_data(store, postal_code, city):
         params = {}
     #print('getting a data')
     start = time.time()
-    r = await AsyncHTMLSession().get(websites[store], params=params)
-    category = 2
-    rows = []
-    while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
-        category_name = r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')[0].attrs['class'][0]
+    try:
+        r = await session.get(websites[store], params=params)
+        category = 2
+        rows = []
+        while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
+            category_name = r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')[0].attrs['class'][0]
 
-        imgs = [x.attrs['src'] for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[1]/div/a/img')]
-        prices = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[3]')]                                                        
-        stories = [x.text.replace('nan', "") for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[2]')]
-        names = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[4]')]
-        this_stores = [store for x in range(len(imgs))]
-        categories = [category_name for x in range(len(imgs))]
-        this_locations = [city for x in range(len(imgs))]
+            imgs = [x.attrs['src'] for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[1]/div/a/img')]
+            prices = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[3]')]                                                        
+            stories = [x.text.replace('nan', "") for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[2]')]
+            names = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[4]')]
+            this_stores = [store for x in range(len(imgs))]
+            categories = [category_name for x in range(len(imgs))]
+            this_locations = [city for x in range(len(imgs))]
 
-        column_dict = {
-            'name' : names,
-            'price' : prices,
-            'store': this_stores,
-            'image' : imgs,
-            'story' : stories,
-            'category': categories,
-            'location': this_locations
-        }
+            column_dict = {
+                'name' : names,
+                'price' : prices,
+                'store': this_stores,
+                'image' : imgs,
+                'story' : stories,
+                'category': categories,
+                'location': this_locations
+            }
 
-        rows.append(pd.DataFrame(column_dict))
-        category += 1
+            rows.append(pd.DataFrame(column_dict))
+            category += 1
 
-    #print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
+        print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
 
-    if len(rows) > 0:
-        store_data = pd.concat(rows)
-        return store_data
+        if len(rows) > 0:
+            store_data = pd.concat(rows)
+            return store_data
+    except:
+        pass
 
     return pd.DataFrame()
