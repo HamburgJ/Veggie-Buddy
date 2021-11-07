@@ -34,7 +34,7 @@ def home():
     for i in range(0,len(items)):
         for city in postal_codes.keys():
             new_df = pd.DataFrame(
-                df.loc[(df['item'] == items[i]) & (df['location'] == city)],
+                df.loc[(df['item'] == items[i])],
                 columns = [
                     'item',
                     'name',
