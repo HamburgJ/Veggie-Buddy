@@ -14,7 +14,7 @@ def home():
     db = client['groceryDatabase']
     collection = db['groceryCollection']
 
-    location = request.args.get('location', default = 'Kingston', type = str)
+    location = request.args.get('location', default = 'kingston', type = str).lower()
     query = {'location': location}
     df = pd.DataFrame(list(collection.find(query)))
 
