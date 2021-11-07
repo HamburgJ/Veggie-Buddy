@@ -225,7 +225,9 @@ postal_codes = {
     'Thunder Bay': 'P7C1A1'
 }
 
+'''
 postal_codes = {
     'Kingston': 'K7L3Y2',
     'Guelph': 'N1E2L8'
 }
+'''

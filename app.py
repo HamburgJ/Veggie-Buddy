@@ -4,6 +4,7 @@ import pandas as pd
 import random
 import gevent.pywsgi
 import os
+from constants import *
 
 app = Flask(__name__)
 
@@ -25,11 +26,31 @@ def home():
     dfs = [[] for x in range(colnum)]
     lengths = [0 for x in range(colnum)]
     categories = [[] for x in range(len(items))]
+    #get list of all things from city
+    #go through listing all item from the city from list, should be similar to code before
+    #append all cities lists together
+
+
     for i in range(0,len(items)):
-        new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods'])
-        insert = lengths.index(min(lengths))
-        lengths[insert] = lengths[insert] + 3 + len(new_df.index)
-        dfs[insert].append(new_df)
+        for city in postal_codes.keys():
+            new_df = pd.DataFrame(
+                df.loc[(df['item'] == items[i]) & (df['location'] == city)],
+                columns = [
+                    'item',
+                    'name',
+                    'price',
+                    'store',
+                    'image',
+                    'story',
+                    'category',
+                    'vegan',
+                    'foods',
+                    'location'
+                ]
+            )
+            insert = lengths.index(min(lengths))
+            lengths[insert] = lengths[insert] + 3 + len(new_df.index)
+            dfs[insert].append(new_df)
 
     row_datas = [[list(d.values.tolist()) for d in df] for df in dfs]
 
