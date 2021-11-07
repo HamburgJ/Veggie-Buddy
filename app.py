@@ -13,7 +13,9 @@ def home():
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db['groceryCollection']
-    query = {'location': 'Toronto'}
+
+    location = request.args.get('location', default = 'Kingston', type = str)
+    query = {'location': location}
     df = pd.DataFrame(list(collection.find(query)))
 
     # Fix NaN data
