@@ -13,7 +13,8 @@ def home():
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db['groceryCollection']
-    df = pd.DataFrame(list(collection.find()))
+    query = {'location': 'Toronto'}
+    df = pd.DataFrame(list(collection.find(query)))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
