@@ -18,8 +18,8 @@ def home():
     query = {'location': location}
     df = pd.DataFrame(list(collection.find(query)))
 
-    return list(collection.find(query))
-    
+    return collection.find(query)
+
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
     df['price'] = [ str(x).replace("nan", "") for x in df['price']]
