@@ -213,7 +213,7 @@ postal_codes = {
     'smiths-falls': 'K7A1A1',
     'cornwall': 'K6J1A1',
     'mississuaga': 'L5A1A1',
-    'richmond hill': 'L4C1A1',
+    'richmond-hill': 'L4C1A1',
     'ajax': 'L1Z1A1',
     'toronto': 'M5A1A1',
     'scarborough': 'M1B1A1',
