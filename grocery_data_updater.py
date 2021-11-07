@@ -342,7 +342,6 @@ collection.delete_many({})
 collection.insert_many(data_dict)
 '''
 
-
 client = MongoClient("mongodb+srv://dbtester:joshi@cluster0.7g7oh.mongodb.net/groceryDatabase?retryWrites=true&w=majority")
 db = client['groceryDatabase']
 collection = db['groceryCollection']
