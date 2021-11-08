@@ -87,7 +87,7 @@ for i in range(0, len(df.index)):
             prices[i] = prices[i] + float(p.group(1))
         else:
             prices[i] = 10000000000
-df['real price'] = prices 
+df['real_price'] = prices 
 
 df['foods'] = [[] for x in range(0, len(df.index))]
 df['food categories'] = [[] for x in range(0, len(df.index))]
@@ -307,11 +307,11 @@ for i in range(0, len(df.index)):
         row_food_labels.append(df['foods'][i][j])
         category_labels.append(df['food categories'][i][j])
 
-final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','vegan','foods','real price','location'])
+final_df = pd.DataFrame(rows, columns=['name','price','store','image','story','vegan','foods','real_price','location'])
 final_df['name'] = [x.capitalize() for x in final_df['name']]
 final_df.insert(loc=0, column="category", value=category_labels)
 final_df.insert(loc=0, column="item", value=row_food_labels)
-final_df.sort_values(inplace=True, by=['real price'])
+final_df.sort_values(inplace=True, by=['real_price'])
 final_df.reset_index(drop=True,inplace=True)
 
 # To avoid incorrect images from multi-items, choose the image from the item with the fewest products detected
