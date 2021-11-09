@@ -220,7 +220,7 @@ non_vegan = [
     'online grocery'
 ]
 
-foods = [
+simple_match_foods = [
     'avocados',
     'cilantro',
     'broccoli',
@@ -228,7 +228,8 @@ foods = [
     'cauliflower',
     'potatoes',
     'mandarins',
-    'apples','cucumbers',
+    'apples',
+    'cucumbers',
     'cabbages',
     'jalapeños',
     'lemons',
@@ -287,7 +288,45 @@ postal_codes = {
 }
 '''
 
-item_match_dict = {
+complex_match_foods = {
+    "grapes": {
+        "category": 'produce',
+        "positive": [
+            'grapes'
+        ],
+        "negative": [
+            'tomato',
+            'tomatoes'
+        ]
+    },
+    "grape tomatoes": {
+        "category": 'produce',
+        "positive": [
+            'grape tomato',
+            'grape tomatoes'
+        ],
+        "negative": [
+            'salad'
+        ]
+    },
+    "grapes": {
+        "category": 'produce',
+        "positive": [
+            'tomatoes',
+            'tomato'
+        ],
+        "negative": [
+            'grape',
+            'grapes',
+            'salad',
+            'canned',
+            'rotel',
+            'crushed',
+            'paste',
+            'sauce',
+            'sauces'
+        ]
+    },
     "cola": {
         "category": 'other',
         "positive": [

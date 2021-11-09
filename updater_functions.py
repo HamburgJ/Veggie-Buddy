@@ -7,24 +7,19 @@ from requests_html import AsyncHTMLSession
 # Checks if any of the postitive words are in the string and none of the negative are
 def hasword(string, positive, negative=[]):
     if negative != []:
-        if (re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string)
-            and not re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(negative)+')(?=\s|$|,)', string)):
-                return True
-    else:
-        if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string):
-            return True
+        if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(negative)+')(?=\s|$|,)', string):
+            return False
+    if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string):
+        return True
     return False
 
 # Processing website item data to dataframe
 async def get_data(store, postal_code, city, session):
-    if store != 'Farmboy':
-        params = {
-            'postal_code': postal_code,
-            'locale' : 'en',
-            'type' : 1
-        }
-    else:
-        params = {}
+    params = {
+        'postal_code': postal_code,
+        'locale' : 'en',
+        'type' : 1
+    }
     #print('getting a data')
     start = time.time()
     try:
