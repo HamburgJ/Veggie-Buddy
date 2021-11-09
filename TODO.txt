@@ -1,12 +1,13 @@
 TODO:
 
 Data updater:
+=cleanup code into constants and functions
 =segment into collections (by location)
 =create item object instead of listing
 =remove unused Data
 =streamline for all grocery chains
 =remove magic strings and make more helper functions
-
+=category map to constant dict
 
 
 =download database as json
