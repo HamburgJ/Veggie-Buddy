@@ -22,14 +22,28 @@ websites = {
     'Longos': 'https://flyers.sobeys.com/flyers/longos-flyer/grid_view/656515'
 }
 
-stores = [
+stores = websites.keys()
+owned_by_loblaws = [
+    'Loblaws',
+    'No Frills',
+    'Shoppers Drug Mart',
+    'Real Canadian Superstore',
+    'Zehrs',
+    'T&T',
+    'Independent'
+]
+
+owned_by_metro = [
     'Food Basics',
-    'FreshCo', 
-    'Metro', 
-    'Loblaws', 
-    'No Frills', 
-    'Giant Tiger', 
-    'Walmart'
+    'Metro',
+    'Super C'
+]
+
+owned_by_empire = [
+    'Farm Boy',
+    'Freshco',
+    'Longos',
+    'Sobeys'
 ]
 
 vegan_keywords = [
@@ -50,13 +64,13 @@ vegan_keywords = [
     'earths own', 
     'blue diamond', 
     'boca', 
-    'sunrise soya', 
-    'fontaine', 
+    'sunrise soya',  
     'sunrise soft', 
     'lightlife',
     'field roast', 
     'so delicious', 
     'oat yeah', 
+    'not milk',
     'plant-based', 
     'plant based', 
     'vegan', 
@@ -100,7 +114,8 @@ vegan_keywords = [
     'beyond chicken',
     'beyond ground',
     'beyond beef',
-    'meatless'
+    'meatless',
+    'impossible'
 ]
 
 meat_keywords = [
