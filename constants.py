@@ -22,14 +22,28 @@ websites = {
     'Longos': 'https://flyers.sobeys.com/flyers/longos-flyer/grid_view/656515'
 }
 
-stores = [
+stores = websites.keys()
+owned_by_loblaws = [
+    'Loblaws',
+    'No Frills',
+    'Shoppers Drug Mart',
+    'Real Canadian Superstore',
+    'Zehrs',
+    'T&T',
+    'Independent'
+]
+
+owned_by_metro = [
     'Food Basics',
-    'FreshCo', 
-    'Metro', 
-    'Loblaws', 
-    'No Frills', 
-    'Giant Tiger', 
-    'Walmart'
+    'Metro',
+    'Super C'
+]
+
+owned_by_empire = [
+    'Farm Boy',
+    'Freshco',
+    'Longos',
+    'Sobeys'
 ]
 
 vegan_keywords = [
@@ -50,13 +64,13 @@ vegan_keywords = [
     'earths own', 
     'blue diamond', 
     'boca', 
-    'sunrise soya', 
-    'fontaine', 
+    'sunrise soya',  
     'sunrise soft', 
     'lightlife',
     'field roast', 
     'so delicious', 
     'oat yeah', 
+    'not milk',
     'plant-based', 
     'plant based', 
     'vegan', 
@@ -100,7 +114,8 @@ vegan_keywords = [
     'beyond chicken',
     'beyond ground',
     'beyond beef',
-    'meatless'
+    'meatless',
+    'impossible'
 ]
 
 meat_keywords = [
@@ -207,25 +222,27 @@ foods = [
 ]
 
 postal_codes = {
-    'Kingston': 'K7L3Y2',
-    'Guelph': 'N1E2L8',
-    'Ottawa': 'K2A1A1',
-    'Smiths Falls': 'K7A1A1',
-    'Cornwall': 'K6J1A1',
-    'Mississuaga': 'L5A1A1',
-    'Richmond Hill': 'L4C1A1',
-    'Ajax': 'L1Z1A1',
-    'Toronto': 'M5A1A1',
-    'Scarborough': 'M1B1A1',
-    'Etobicoke': 'M8Z1A1',
-    'London': 'N6A1A1',
-    'Waterloo': 'N2J1A1',
-    'Kitchener': 'N2N1A1',
-    'Sault Ste. Marie': 'P6B1A1',
-    'Thunder Bay': 'P7C1A1'
+    'kingston': 'K7L3Y2',
+    'guelph': 'N1E2L8',
+    'ottawa': 'K2A1A1',
+    'smiths-falls': 'K7A1A1',
+    'cornwall': 'K6J1A1',
+    'mississuaga': 'L5A1A1',
+    'richmond-hill': 'L4C1A1',
+    'ajax': 'L1Z1A1',
+    'toronto': 'M5A1A1',
+    'scarborough': 'M1B1A1',
+    'etobicoke': 'M8Z1A1',
+    'london': 'N6A1A1',
+    'waterloo': 'N2J1A1',
+    'kitchener': 'N2N1A1',
+    'sault-ste-marie': 'P6B1A1',
+    'thunder-bay': 'P7C1A1'
 }
 
+'''
 postal_codes = {
     'Kingston': 'K7L3Y2',
     'Guelph': 'N1E2L8'
 }
+'''
