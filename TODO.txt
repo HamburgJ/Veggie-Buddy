@@ -1,0 +1,28 @@
+TODO:
+
+Data updater:
+=segment into collections (by location)
+=create item object instead of listing
+=remove unused Data
+=streamline for all grocery chains
+=remove magic strings and make more helper functions
+
+
+
+=download database as json
+
+
+Frontend:
+=get ip geo location, match to city if possible
+=location selection popup if not a city in list
+=search Data
+=stores selection
+=food categories
+=sort by
+
+
+Other:
+loading glitch?
+-email list by city?
+-good deal button (1 like per ip) - then can sort by highest likes
+-android
