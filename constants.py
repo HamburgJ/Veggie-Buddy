@@ -22,7 +22,6 @@ websites = {
     'Longos': 'https://flyers.sobeys.com/flyers/longos-flyer/grid_view/656515'
 }
 
-stores = websites.keys()
 owned_by_loblaws = [
     'Loblaws',
     'No Frills',
@@ -159,21 +158,10 @@ meat_keywords = [
     'salami',
     'turkey',
     'sardines',
-    'quiche',
-    'cheese',
     'salmon',
     'bacon',
     'beef',
     'chicken',
-    'ice cream',
-    'milk',
-    'yogurt',
-    'cream',
-    'egg',
-    'eggs',
-    'danone',
-    'activia',
-    'butter',
     'pizza',
     'hungry-man',
     'honey',
@@ -183,7 +171,6 @@ meat_keywords = [
     'fish',
     'fillets',
     'steak',
-    'parlour',
     'pogo',
     'entrees'
 ]
@@ -200,6 +187,19 @@ dairy_keywords = [
     'black diamond',
     'yogourt',
     'yoplait',
+    'ice cream',
+    'milk',
+    'yogurt',
+    'cream',
+    'egg',
+    'eggs',
+    'danone',
+    'activia',
+    'butter',
+    'quiche',
+    'cheese',
+    'parlour',
+    'whites'
 ]
 
 non_vegan = [
@@ -220,7 +220,13 @@ non_vegan = [
     'online grocery'
 ]
 
-simple_match_foods = [
+keyword_categories = {
+    'vegan': vegan_keywords,
+    'meat': meat_keywords,
+    'dairy': dairy_keywords
+}
+
+produce_keywords = [
     'avocados',
     'cilantro',
     'broccoli',
@@ -281,14 +287,56 @@ postal_codes = {
     'thunder-bay': 'P7C1A1'
 }
 
-'''
-postal_codes = {
-    'Kingston': 'K7L3Y2',
-    'Guelph': 'N1E2L8'
-}
-'''
 
-complex_match_foods = {
+postal_codes = {
+    'Kingston': 'K7L3Y2'
+}
+
+category_dict = {
+    'grocery': 'other',
+    'beverages': 'beverages',
+    'meatanddeli': 'meat',
+    'produce': 'produce',
+    'dairyandcheese': 'dairy',
+    'fruitandvegetables': 'produce',
+    'pantry': 'other',
+    'drinks': 'beverages',
+    'breadandbakeryproducts': 'bakery',
+    'bakery': 'bakery',
+    'snacks': 'snacks',
+    'dairyeggs': 'dairy',
+    'fruitsvegetables': 'produce',
+    'meatseafood': 'meat',
+    'meat': 'meat',
+    'dairy': 'dairy',
+    'fishandseafood': 'meat',
+    'delireadymeals': 'other',
+    'deli': 'meat',
+    'frozenfood': 'other',
+    'coregrocery': 'none',
+    'dietnutrition': 'other',
+    'seafood': 'meat',
+    'frozen': 'other',
+    'preparedmeals': 'other',
+    'snacksbeverage': 'snacks',
+    'processedmeat': 'meat',
+    'commercialbread': 'bakery',
+    'candy': 'snacks',
+    'condiments': 'other',
+    'cannedfoods': 'other',
+    'fruits': 'produce',
+    'vegetables': 'produce',
+    'juicesandbeverages': 'beverages',
+    'cannedfood': 'other',
+    'healthnutrition': 'other',
+    'cheese': 'dairy',
+    'foodbeverages': 'beverages',
+    'meatfish': 'meat',
+    'dairyproducts': 'dairy',
+    'freshfrozen': 'other'
+}
+
+complex_match_produce = {
     "grapes": {
         "category": 'produce',
         "positive": [
@@ -326,7 +374,9 @@ complex_match_foods = {
             'sauce',
             'sauces'
         ]
-    },
+    }
+}
+complex_match_foods = {
     "cola": {
         "category": 'other',
         "positive": [
@@ -342,14 +392,14 @@ complex_match_foods = {
     },
     "becel": {
         "category": 'vegan',
-        "postive":[
+        "positive": [
             'becel'
         ],
         "negative": []
     },
     "coffee": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'coffee',
             'roast and ground',
             'maxwell house',
@@ -359,7 +409,7 @@ complex_match_foods = {
     },
     "nut milk": {
         "category": 'vegan',
-        "postive":[
+        "positive": [
             'coconut dream',
             'silk',
             'blue diamond',
@@ -389,7 +439,7 @@ complex_match_foods = {
     },
     "chips": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'chips',
             'cheetos',
             'bugels',
@@ -407,7 +457,7 @@ complex_match_foods = {
     },
     "popcorn": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'popcorn',
             'smartfood',
             'bad monkey',
@@ -421,7 +471,7 @@ complex_match_foods = {
     },
     "crackers": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'crackers',
             'triscuit',
             'wheat thins',
@@ -435,7 +485,7 @@ complex_match_foods = {
     },
     "cereal": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'cereal',
             'cereals',
             'general mills',
@@ -449,7 +499,7 @@ complex_match_foods = {
     },
     "oats": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'oatmeal',
             'oats'
         ],
@@ -459,7 +509,7 @@ complex_match_foods = {
     },
     "": {
         "category": '',
-        "postive":[
+        "positive": [
             
         ],
         "negative": [
@@ -468,7 +518,7 @@ complex_match_foods = {
     },
     "chocolate": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'chocolate',
             'chocolates'
         ],
@@ -487,7 +537,7 @@ complex_match_foods = {
     },
     "salad dressing": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'dressing',
             'dressings'
         ],
@@ -495,7 +545,7 @@ complex_match_foods = {
     },
     "salad": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'salad',
             'salads'
         ],
@@ -509,7 +559,7 @@ complex_match_foods = {
     },
     "corn": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'corn'
         ],
         "negative": [
@@ -528,7 +578,7 @@ complex_match_foods = {
     },
     "onion": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'onion',
             'onions'
         ],
@@ -548,7 +598,7 @@ complex_match_foods = {
     },
     "green onion": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'green onion',
             'green onions'
         ],
@@ -562,7 +612,7 @@ complex_match_foods = {
     },
     "red onion": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'red onion',
             'red onions'
         ],
@@ -572,7 +622,7 @@ complex_match_foods = {
     },
     "green beans": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'green bean',
             'green beans',
             'long beans',
@@ -586,7 +636,7 @@ complex_match_foods = {
     },
     "lettuce": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'romaine',
             'lettuce'
         ],
@@ -599,7 +649,7 @@ complex_match_foods = {
     },
     "sweet potato": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'yams',
             'sweet potato',
             'yam',
@@ -614,7 +664,7 @@ complex_match_foods = {
     },
     "pasta sauce": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'classico',
             'pasta sauce',
             'prima',
@@ -627,7 +677,7 @@ complex_match_foods = {
     },
     "fruit snack": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'fruit bowls',
             'fruit bowl',
             'dole fruit',
@@ -639,7 +689,7 @@ complex_match_foods = {
     },
     "peanut butter": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'peanut butter',
             'jif'
         ],
@@ -647,7 +697,7 @@ complex_match_foods = {
     },
     "jam": {
         "category": 'other',
-        "postive":[
+        "positive": [
             "jam",
             "jelly"
         ],
@@ -657,7 +707,7 @@ complex_match_foods = {
     },
     "ketchup": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'ketchup'
         ],
         "negative": [
@@ -667,7 +717,7 @@ complex_match_foods = {
     },
     "mustard": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'mustard'
         ],
         "negative": [
@@ -679,7 +729,7 @@ complex_match_foods = {
     },
     "vinegar": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'vinegar'
         ],
         "negative": [
@@ -691,7 +741,7 @@ complex_match_foods = {
     },
     "sugar": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'white sugar',
             'brown sugar',
             'icing sugar'
@@ -705,7 +755,7 @@ complex_match_foods = {
     },
     "sparkling water": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'sparkling water',
             'flavoured water',
             'flavored water',
@@ -724,7 +774,7 @@ complex_match_foods = {
     },
     "bagels": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'bagel',
             'bagels'
         ],
@@ -739,7 +789,7 @@ complex_match_foods = {
     },
     "english muffins": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'english muffins',
             'english muffin'
         ],
@@ -750,7 +800,7 @@ complex_match_foods = {
     },
     "bread": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'bread',
             'loaf'
         ],
@@ -763,7 +813,7 @@ complex_match_foods = {
     },
     "tortillas": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'tortilla',
             'tortillas'
         ],
@@ -776,7 +826,7 @@ complex_match_foods = {
     },
     "hummus": {
         "category": 'vegan',
-        "postive":[
+        "positive": [
             'hummus',
             'chickpea dip'
         ],
@@ -784,7 +834,7 @@ complex_match_foods = {
     },
     "mixed nuts": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'mixed nuts',
             'nut mix',
             'premium nuts',
@@ -796,7 +846,7 @@ complex_match_foods = {
     },
     "cookies": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'cookies',
             'cookie',
             'oreo',
@@ -809,7 +859,7 @@ complex_match_foods = {
     },
     "oil": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'olive oil',
             'canola oil',
             'corn oil',
@@ -828,14 +878,14 @@ complex_match_foods = {
     },
     "broth": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'broth'
         ],
         "negative": []
     },
     "pickes": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'pickles',
             'gherkins'
         ],
@@ -849,14 +899,14 @@ complex_match_foods = {
     },
     "buns": {
         "category": 'bakery',
-        "postive":[
+        "positive": [
             'buns'
         ],
         "negative": []
     },
     "canned tomatoes": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'canned tomato',
             'canned tomatoes',
             'rotel',
@@ -867,14 +917,14 @@ complex_match_foods = {
     },
     "salsa": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'salsa'
         ],
         "negative": []
     },
     "tofu": {
         "category": 'vegan',
-        "postive":[
+        "positive": [
             'tofu'
         ],
         "negative": [
@@ -884,7 +934,7 @@ complex_match_foods = {
     },
     "waffles": {
         "category": 'other',
-        "postive":[
+        "positive": [
             'waffles',
             'waffle',
             'eggo'
@@ -895,7 +945,7 @@ complex_match_foods = {
     },
     "oranges": {
         "category": 'produce',
-        "postive":[
+        "positive": [
             'orange',
             'oranges'
         ],
