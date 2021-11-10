@@ -221,9 +221,7 @@ non_vegan = [
 ]
 
 keyword_categories = {
-    'vegan': vegan_keywords,
-    'meat': meat_keywords,
-    'dairy': dairy_keywords
+    'vegan': vegan_keywords
 }
 
 produce_keywords = [
