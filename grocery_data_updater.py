@@ -103,7 +103,7 @@ for i in range(len(df.index)):
         for food in produce_keywords:
             if (hasword(name, [food]) or
                 hasword(lemmatizer.lemmatize(name), [food]) or
-                hasword(name, lemmatizer.lemmatize(name))):
+                hasword(name, [lemmatizer.lemmatize(name)])):
                 df['foods'][i].append(food)
                 df['food categories'][i].append('produce')
         
