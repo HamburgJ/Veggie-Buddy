@@ -287,10 +287,11 @@ postal_codes = {
     'thunder-bay': 'P7C1A1'
 }
 
-
+'''
 postal_codes = {
     'Kingston': 'K7L3Y2'
 }
+'''
 
 category_dict = {
     'grocery': 'other',
