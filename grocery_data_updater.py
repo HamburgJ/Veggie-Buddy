@@ -58,17 +58,20 @@ df.reset_index(inplace=True,drop=True)
 df.drop_duplicates(inplace=True, subset=['name','price','store','location'])
 df.reset_index(inplace=True,drop=True)
 
-
+categories = df['category']
 # Detect items with meat or vegan keywords and fix categories
 df['vegan'] = ["FALSE" for x in range(len(df.index))]
+
 ######################## SOMETHING WRONG WITH THIS EVERYTHING GOES TO MEAT--- LOOK AT THE DICTS
 for i in range(len(df.index)):
     for category, dictionary in keyword_categories.items():
         for keyword in dictionary:
             if hasword(df['name'][i], [keyword]):
-                df['category'] = category
+                categories[i] = category
 #################################
 # Fix pricing info
+
+df['category'] = categories
 prices = [0 for x in range(len(df.index))]
 
 for i in range(len(df.index)):

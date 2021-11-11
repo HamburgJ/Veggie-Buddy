@@ -1,6 +1,7 @@
 TODO:
 
 Data updater:
+=fix categories
 =segment into collections (by location)
 =create item object instead of listings
 
@@ -12,6 +13,7 @@ Frontend:
 =stores selection
 =food categories
 =sort by
+=store stores and location in cookie?
 
 
 Other:
