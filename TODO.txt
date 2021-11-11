@@ -1,8 +1,9 @@
 TODO:
 
 Data updater:
-=fix categories
-=segment into collections (by location)
+=clear each city THEN start writing, currently will only have one document becuase cleared every time
+=move process function out of main
+=try using threaded requests for faster scraping
 =create item object instead of listings
 
 
