@@ -157,13 +157,16 @@ for i in range(len(row_food_labels)):
             final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
 
 # Connect to MongoDB
-#client =  MongoClient(os.environ['MONGODB_URI'])
-#db = client['groceryDatabase']
-#collection = db['groceryCollection']
-#data_dict = final_df.to_dict("records")
+client =  MongoClient(os.environ['MONGODB_URI'])
+db = client['groceryDatabase']
 
-# Reset and Insert collection
-#collection.delete_many({})
-#collection.insert_many(data_dict)
-final_df.to_csv('yeah.csv')
+for city in postal_codes.keys():
+    collection = db[city]
+    city_data = final_df[final_df['location'] == city]
+    data_dict = city_data.to_dict("records")
+
+    # Reset and Insert collection
+    collection.delete_many({})
+    collection.insert_many(data_dict)
+
 print('Grocery data update complete!')
