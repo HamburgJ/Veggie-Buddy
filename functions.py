@@ -208,6 +208,9 @@ def process(df):
             else:
                 final_df.loc[final_df['item'] == row_food_labels[i], 'image'] = item_df['image'][shortest]
 
+    if len(df.index == 0):
+        return
+        
     # Connect to MongoDB
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
