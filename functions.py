@@ -9,6 +9,8 @@ import ftfy
 from nltk.stem import WordNetLemmatizer
 import nltk
 
+pd.options.mode.chained_assignment = None
+
 # Checks if any of the postitive words are in the string and none of the negative are
 def has_word(string, positive, negative=[]):
     if negative != []:

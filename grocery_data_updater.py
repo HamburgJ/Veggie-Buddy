@@ -5,6 +5,8 @@ from requests_html import AsyncHTMLSession
 from constants import *
 from functions import *
 
+pd.options.mode.chained_assignment = None
+
 # Get data
 asession = AsyncHTMLSession(workers=200)
 
