@@ -21,6 +21,8 @@ def has_word(string, positive, negative=[]):
         return True
     return False
 
+
+
 # Processing website item data to dataframe
 def get_data(store, postal_code, city, start):
     params = {
@@ -32,14 +34,15 @@ def get_data(store, postal_code, city, start):
     path = '//*[@id="wrapper"]/div[8]/div/div[2]/div['
     try:
         
-        r = requests.get(websites[store], params=params)
+        r = requests.get(websites[store], params=params, timeout=30)
         r_html = html.fromstring(r.content)
 
         category = 2
         rows = []
-        
-        while len(r_html.xpath('{}{}]/text()'.format(path, category))) != 0:
 
+        if len(r_html.xpath('//*[@class="real-category-list"]/button[{}]'.format(category))) == 0:
+            print('store: {}, city: {}'.format(store, city))
+        while len(r_html.xpath('//*[@class="real-category-list"]/button[{}]'.format(category))) != 0:
             category_name = r_html.xpath('{}{}]'.format(path, category))[0].get('class')
 
             imgs = r_html.xpath('{}{}]/ul/li/div[1]/div/a/img/@src'.format(path, category))
@@ -66,13 +69,15 @@ def get_data(store, postal_code, city, start):
             rows.append(pd.DataFrame(column_dict))
             category += 1
 
-        print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
+        #print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
 
         if len(rows) > 0:
-            return
-    except:
+            store_data = pd.concat(rows)
+            #print(lstore)
+            return store_data
+    except Exception as e:
         pass
-    return
+    return pd.DataFrame()
 
 def delete_items():
     client =  MongoClient(os.environ['MONGODB_URI'])
