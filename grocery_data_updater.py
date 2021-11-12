@@ -21,7 +21,7 @@ for city, postal_code in postal_codes.items():
 
 r = asession.run( *to_run)
 
-#delete_items()
+delete_items()
 nltk.download('wordnet')
 
 for data in r:
