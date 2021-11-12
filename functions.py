@@ -2,12 +2,13 @@ import re
 from constants import *
 import pandas as pd
 import time
-from requests_html import AsyncHTMLSession
 from pymongo import MongoClient
 import os
 import ftfy
 from nltk.stem import WordNetLemmatizer
 import nltk
+from lxml import html  
+import requests
 
 pd.options.mode.chained_assignment = None
 
@@ -21,28 +22,36 @@ def has_word(string, positive, negative=[]):
     return False
 
 # Processing website item data to dataframe
-async def get_data(store, postal_code, city, session):
+def get_data(store, postal_code, city, start):
     params = {
         'postal_code': postal_code,
         'locale' : 'en',
         'type' : 1
     }
-    #print('getting a data')
-    start = time.time()
+
+    path = '//*[@id="wrapper"]/div[8]/div/div[2]/div['
     try:
-        r = await session.get(websites[store], params=params)
+        
+        r = requests.get(websites[store], params=params)
+        r_html = html.fromstring(r.content)
+
         category = 2
         rows = []
-        while len(r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')) != 0:
-            category_name = r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']')[0].attrs['class'][0]
+        
+        while len(r_html.xpath('{}{}]/text()'.format(path, category))) != 0:
 
-            imgs = [x.attrs['src'] for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[1]/div/a/img')]
-            prices = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[3]')]                                                        
-            stories = [x.text.replace('nan', "") for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[2]')]
-            names = [x.text for x in r.html.xpath('//*[@id="wrapper"]/div[8]/div/div[2]/div[' + str(category) + ']/ul/li/div[4]')]
-            this_stores = [store for x in range(len(imgs))]
-            categories = [category_name for x in range(len(imgs))]
-            this_locations = [city for x in range(len(imgs))]
+            category_name = r_html.xpath('{}{}]'.format(path, category))[0].get('class')
+
+            imgs = r_html.xpath('{}{}]/ul/li/div[1]/div/a/img/@src'.format(path, category))
+            prices = r_html.xpath('{}{}]/ul/li/div[3]/text()'.format(path, category))
+            stories = [x.replace('nan', "") for x in r_html.xpath('{}{}]/ul/li/div[2]/text()'.format(path, category))]
+            names = r_html.xpath('{}{}]/ul/li/div[4]/text()'.format(path, category))
+            
+            entries = len(imgs)
+            
+            this_stores = [store for x in range(entries)]
+            categories = [category_name for x in range(entries)]
+            this_locations = [city for x in range(entries)]
 
             column_dict = {
                 'name' : names,
@@ -60,12 +69,10 @@ async def get_data(store, postal_code, city, session):
         print('done. time took: {} link: {} postal: {}'.format(time.time() - start, websites[store], postal_code))
 
         if len(rows) > 0:
-            store_data = pd.concat(rows)
-            return store_data
+            return
     except:
         pass
-
-    return pd.DataFrame()
+    return
 
 def delete_items():
     client =  MongoClient(os.environ['MONGODB_URI'])
