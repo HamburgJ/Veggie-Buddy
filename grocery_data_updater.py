@@ -5,6 +5,7 @@ from requests_html import AsyncHTMLSession
 from constants import *
 from functions import *
 
+# Turn of pandas warnings
 pd.options.mode.chained_assignment = None
 
 # Get data
@@ -20,7 +21,7 @@ for city, postal_code in postal_codes.items():
 
 r = asession.run( *to_run)
 
-delete_items()
+#delete_items()
 nltk.download('wordnet')
 
 for data in r:

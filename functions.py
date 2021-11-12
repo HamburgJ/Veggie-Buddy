@@ -155,7 +155,7 @@ def process(df):
             for food in produce_keywords:
                 if (has_word(name, [food]) or
                     has_word(lemmatizer.lemmatize(name), [food]) or
-                    has_word(name, [lemmatizer.lemmatize(name)])):
+                    has_word(name, [lemmatizer.lemmatize(food)])):
                     df['foods'][i].append(food)
                     df['food categories'][i].append('produce')
             
@@ -163,12 +163,12 @@ def process(df):
                 if has_word(name, dictionary['positive'], dictionary['negative']):
                     df['foods'][i].append(food)
                     df['food categories'][i].append('produce')
-        
+
         for food, dictionary in complex_match_foods.items():
             if has_word(name, dictionary['positive'], dictionary['negative']):
                 df['foods'][i].append(food)
                 df['food categories'][i].append(dictionary['category'])
-        
+    
     # If no products are found in an item, the product will just be the item name
     for i in range(len(df.index)):
         if df['foods'][i] == []:

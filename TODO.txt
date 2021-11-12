@@ -1,8 +1,7 @@
 TODO:
 
 Data updater:
-=clear each city THEN start writing, currently will only have one document becuase cleared every time
-=move process function out of main
+=figure out why all foods in produce are going into foods array
 =try using threaded requests for faster scraping
 =create item object instead of listings
 
