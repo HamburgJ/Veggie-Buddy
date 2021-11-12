@@ -1,8 +1,6 @@
 TODO:
 
 Data updater:
-=figure out why all foods in produce are going into foods array
-=try using threaded requests for faster scraping
 =create item object instead of listings
 
 
