@@ -10,7 +10,7 @@ canadian superstore finder
 Frontend:
 -implement apply button
 -css
--
+-sort by priace?
 -session
 
 Other:
