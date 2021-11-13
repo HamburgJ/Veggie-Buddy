@@ -6,35 +6,14 @@ import requests
 import gevent.pywsgi
 import os
 from static_data import *
+from constants import *
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    ip = request.environ['REMOTE_ADDR']
-    print('ip')
-    print(ip)
-    ip2 = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    print('ip2')  
-    print(ip2)
-    ip3 = request.remote_addr
-    print('ip3')
-    print(ip3)
-    ip4 = request.environ['HTTP_X_FORWARDED_FOR']
-    print('ip4')
-    print(ip4)
-    ip5 = request.environ.get('REMOTE_ADDR', request.remote_addr)  
-    print('ip5')
-    print(ip5)
-    proxy_data = request.headers['X-Forwarded-For']
-    print('proxy')
-    print(proxy_data)
-    print('ip_list')
-    ip_list = proxy_data.split(',')
-    print(ip_list)
-    user_ip = ip_list[0]
-    print('user_ip')
-    print(user_ip)
+
+    ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     print(r)
     json = r.json()
@@ -43,6 +22,9 @@ def home():
     print(client_location)
     city = client_location.lower().replace(' ','-').replace('.','')
     print(city)
+
+    if not city in postal_codes.keys():
+        city = 'kingston'
 
     # Get data from MongoDB
     client =  MongoClient(os.environ['MONGODB_URI'])
@@ -69,6 +51,7 @@ def home():
 
     row_datas = [[list(d.values.tolist()) for d in df] for df in dfs]
 
+    print('Success! location: {}'.format(city))
     return render_template('main.html', row_datas=row_datas, column_names=df.columns.tolist(),
                            link_column="image", zip=zip, city=city)
 
