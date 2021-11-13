@@ -79,10 +79,10 @@ def home():
         searched_items = []
 
         for item in items:
-            if has_word(item, [search]):
+            if has_word(item, [search], lemmatize=True):
                 searched_items.append(item)
 
-        if searched_items:
+        if not searched_items == []:
             items = searched_items
         else:
             message = 'search not found'

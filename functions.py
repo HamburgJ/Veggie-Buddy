@@ -12,10 +12,14 @@ import nltk
 pd.options.mode.chained_assignment = None
 
 # Checks if any of the postitive words are in the string and none of the negative are
-def has_word(string, positive, negative=[]):
+def has_word(string, positive, negative=[], lemmatize=False):
     if negative != []:
         if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(negative)+')(?=\s|$|,)', string):
             return False
+    if lemmatize:
+        positive = [WordNetLemmatizer().lemmatize(word) for word in positive]
+        if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', WordNetLemmatizer().lemmatize(string)):
+            return True
     if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(positive)+')(?=\s|$|,)', string):
         return True
     return False
