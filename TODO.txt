@@ -12,6 +12,7 @@ Frontend:
 -css
 -sort by priace?
 -session
+-save checkbox options
 
 Other:
 -loading glitch

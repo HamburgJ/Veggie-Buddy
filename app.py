@@ -18,7 +18,7 @@ def get_location():
     arg_location = request.args.get('location')
     if arg_location is not None:
         return arg_location
-        
+
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     json = r.json()
@@ -62,7 +62,7 @@ def home():
 
     ipcity = 'guelph'
 
-    df = pd.DataFrame(list(data))
+    #df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
