@@ -48,7 +48,7 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
         <form action='/' method='POST'>
             <select name="city_select" id="" class="form-control" >
             {% for c in cities %}
-                {% if c == city %}
+                {% if c.lower() == city %}
                     <option value="{{c}}" selected="selected">{{c}}</option>
                 {% else %}
                     <option value="{{c}}">{{c}}</option>

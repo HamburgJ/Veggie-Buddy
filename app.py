@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 def get_location():
     if request.method == 'POST':
+        print(request.form.get('city_select').lower().replace(' ', '-').replace('.',' '))
         return request.form.get('city_select').replace(' ', '-').replace('.',' ')
 
     arg_location = request.args.get('location')
