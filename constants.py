@@ -150,7 +150,9 @@ vegan_keywords = [
     'beyond ground',
     'beyond beef',
     'meatless',
-    'impossible'
+    'impossible',
+    'impossible burger',
+    'plant-based'
 ]
 
 meat_keywords = [
@@ -161,7 +163,6 @@ meat_keywords = [
     'bacon',
     'beef',
     'chicken',
-    'pizza',
     'hungry-man',
     'honey',
     'rinds',
