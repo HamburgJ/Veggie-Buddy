@@ -27,7 +27,7 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
     for (var i=0; i<cards.length; i++) {
         cardArray.push(cards[i].innerHTML);
     }
-    console.logs('cardArray: ' + cardArray);
+    console.log('cardArray: ' + cardArray);
     for(var i=divArray.length-1; i>=0; i--) {
         var storeArray = cardArray[i].getElementsByClassName("listing_container");
         var isEmpty = true
