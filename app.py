@@ -65,7 +65,7 @@ def home():
     
     #Search
     if not search is None:
-        df = df.drop(df[has_word(df.name, search)].index)
+        df = df.drop(df[has_word(df['name'], search)].index)
     ipcity = 'guelph'
 
     #df = pd.DataFrame(list(data))
