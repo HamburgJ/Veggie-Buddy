@@ -28,55 +28,59 @@ def get_location():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    try:
+        mongo_search = {}
+        mongo_sort = {}
 
-    mongo_search = {}
-    mongo_sort = {}
+        if request.method == 'POST':
+            search = request.form.get('search_query')
+            mongo_search = [{ 
+                '$text': {
+                    '$search': search 
+                } 
+            }, { 
+                'score': { 
+                    '$meta': "textScore" 
+                }
+            }]   
+            mongo_sort = { 
+                'score': { 
+                    '$meta': "textScore" 
+                }
+            }
+            stores = []
+            for store in websites.keys():
+                storeData = request.form.get('has_{}'.format(store))
+                if storeData is None:
+                    continue
+                if not storeData == 'on':
+                    continue
+                stores.append(store)
+            
+            categories = []
+            category_list =  list(set(category_dict.values()))
+            for category in category_list:
+                categoryData = request.form.get('has_{}'.format(category))
+                if categoryData is None:
+                    continue
+                if not categoryData == 'on':
+                    continue
+                categories.append(category)
 
-    if request.method == 'POST':
-        search = request.form.get('search_query')
-        mongo_search = [{ 
-            '$text': {
-                '$search': search 
-            } 
-        }, { 
-            'score': { 
-                '$meta': "textScore" 
-            }
-        }]   
-        mongo_sort = { 
-            'score': { 
-                '$meta': "textScore" 
-            }
-        }
-        stores = []
-        for store in websites.keys():
-            storeData = request.form.get('has_{}'.format(store))
-            if storeData is None:
-                continue
-            if not storeData == 'on':
-                continue
-            stores.append(store)
+            print(categories)
+
+        city = get_location()
+
         
-        categories = []
-        category_list =  list(set(category_dict.values()))
-        for category in category_list:
-            categoryData = request.form.get('has_{}'.format(category))
-            if categoryData is None:
-                continue
-            if not categoryData == 'on':
-                continue
-            categories.append(category)
+        # Get data from MongoDB
+        client =  MongoClient(os.environ['MONGODB_URI'])
+        db = client['groceryDatabase']
+        collection = db[city]
 
-        print(categories)
-
-    city = get_location()
-
-    # Get data from MongoDB
-    client =  MongoClient(os.environ['MONGODB_URI'])
-    db = client['groceryDatabase']
-    collection = db[city]
-
-    df = pd.DataFrame(list(collection.find(*mongo_search).sort(mongo_sort)))
+        df = pd.DataFrame(list(collection.find(*mongo_search).sort(mongo_sort)))
+        print('good')
+    except Exception as e:
+        print(e)
 
     ipcity = 'guelph'
 
