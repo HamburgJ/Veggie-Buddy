@@ -43,7 +43,7 @@ async def get_data(store, postal_code, city, session):
             this_stores = [store for x in range(len(imgs))]
             categories = [category_name for x in range(len(imgs))]
             this_locations = [city for x in range(len(imgs))]
-            print(stories)
+
             column_dict = {
                 'name' : names,
                 'price' : prices,
