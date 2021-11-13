@@ -6,6 +6,7 @@ Segment for smaller memory footprint
 Setup categories
 full city list
 canadian superstore finder
+alphabetize cities
 
 Frontend:
 -implement apply button

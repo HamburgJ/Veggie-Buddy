@@ -49,7 +49,9 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
             <select name="city_select" id="" class="form-control" >
             {% for c in cities %}
                 {% set lower = c.lower().replace('-',' ').replace('.','') %}
-                {% if lower == ipcity %}
+                {% print(lower) %}
+                {% print(city) %}
+                {% if lower == city %}
                     <option value="{{lower}}" selected="selected">{{c}}</option>
                 {% else %}
                     <option value="{{lower}}">{{c}}</option>
