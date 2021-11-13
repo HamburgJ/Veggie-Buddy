@@ -10,17 +10,15 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+
+    city = 'kingston'
+
     # Get data from MongoDB
-    '''
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
-    collection = db['groceryCollection']
+    collection = db[city]
 
-    location = request.args.get('location', default = 'kingston', type = str).lower()
-    query = {'location': location}
-    df = pd.DataFrame(list(collection.find(query)))
-    '''
-    df = pd.DataFrame(data)
+    df = pd.DataFrame(list(collection.find()))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
@@ -43,5 +41,5 @@ def home():
     return render_template('main.html', row_datas=row_datas, column_names=df.columns.tolist(),
                            link_column="image", zip=zip)
 
-#app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
-#app_server.serve_forever()
+app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
+app_server.serve_forever()
