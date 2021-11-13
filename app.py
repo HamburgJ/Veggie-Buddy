@@ -63,7 +63,13 @@ def home():
     
     #Search
     if not search is None:
-        searched_df = df.drop(df[has_word(df['name'], [search])].index)
+        drop_list = []
+        for i in range(len(df.index)):
+            if not has_word(df['name'][i], [search]):
+                continue
+            drop_list.append(i)
+        
+        searched_df = df.drop(df.index[drop_list])
         if len(searched_df.index) > 0:
             df = searched_df
         else:
