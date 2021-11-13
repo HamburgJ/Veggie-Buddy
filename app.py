@@ -31,7 +31,7 @@ def home():
     try:
         mongo_search = {}
         mongo_sort = {}
-
+        print('before post clause')
         if request.method == 'POST':
             search = request.form.get('search_query')
             mongo_search = [{ 
@@ -48,6 +48,7 @@ def home():
                     '$meta': "textScore" 
                 }
             }
+            print('not json issue')
             stores = []
             for store in websites.keys():
                 storeData = request.form.get('has_{}'.format(store))
