@@ -232,7 +232,6 @@ produce_keywords = [
     'broccoli',
     'cantaloupes',
     'cauliflower',
-    'potatoes',
     'mandarins',
     'apples',
     'cucumbers',
@@ -942,6 +941,23 @@ complex_match_foods = {
         ],
         "negative": [
             'belgian'
+        ]
+    },
+    "potato": {
+        "category": 'produce',
+        "positive": [
+            'potato',
+            'potatoes'
+        ],
+        "negative": [
+            'chip',
+            'mashed',
+            'mash',
+            'pasta',
+            'starch',
+            'chips',
+            'frozen',
+            'fries'
         ]
     },
     "oranges": {
