@@ -13,8 +13,6 @@ pd.options.mode.chained_assignment = None
 
 # Checks if any of the postitive words are in the string and none of the negative are
 def has_word(string, positive, negative=[]):
-    print('string: {}'.format(string))
-    print('positive: {}'.format(positive))
     if negative != []:
         if re.search('(?:(?<=\s)|(?<=^))('+ '|'.join(negative)+')(?=\s|$|,)', string):
             return False
