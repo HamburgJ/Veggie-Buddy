@@ -11,17 +11,16 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    print('1')
     ip = request.environ['REMOTE_ADDR']
-    print('2')
+    print(ip)
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
-    print('3')
+    print(r)
     json = r.json()
-    print('4')
+    print(json)
     client_location = json['city']
-    print('5')
+    print(client_location)
     city = client_location.lower().replace(' ','-').replace('.','')
-    print('6')
+    print(city)
 
     # Get data from MongoDB
     client =  MongoClient(os.environ['MONGODB_URI'])
