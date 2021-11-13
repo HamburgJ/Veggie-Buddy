@@ -1,21 +1,18 @@
 TODO:
 
-Data updater:
-=create item object instead of listings
-
+Backend:
+Sifting entries
+Segment for smaller memory footprint
+Setup categories
+full city list
+canadian superstore finder
 
 Frontend:
-=get ip geo location, match to city if possible
-=location selection popup if not a city in list
-=search Data
-=stores selection
-=food categories
-=sort by
-=store stores and location in cookie?
-
+-implement apply button
+-css
+-
+-session
 
 Other:
-loading glitch?
--email list by city?
--good deal button (1 like per ip) - then can sort by highest likes
+-loading glitch
 -android

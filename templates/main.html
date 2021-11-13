@@ -4,24 +4,75 @@
     <meta charset="UTF-8">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
     <title>veggie buddy</title>
-    <script src="{{url_for('static', filename='effects.js')}}"></script>
 </head>
 <body>
-    <script language="javascript">
-        function toggle(matchingAttribute) {
-          var divArray = document.getElementsByTagName("div");
-            for(i=divArray.length-1; i>=0; i--) {
-            if(divArray[i].id.match(matchingAttribute)) {
-              if(divArray[i].style.display != 'none') {
+<script language="javascript">
+function toggle(matchingAttribute) {
+    var divArray = document.getElementsByTagName("div");
+    for(i=divArray.length-1; i>=0; i--) {
+        if(divArray[i].id.match(matchingAttribute)) {
+            if(divArray[i].style.display != 'none') {
                 divArray[i].style.display = 'none';
-              }
-              else {
+            } else {
                 divArray[i].style.display = '';
-              }
             }
-          }
-        } 
-    </script>
+        }
+    }
+} 
+</script>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="wrapper">
+        <form action='/' method='POST'>
+            <select name="city_select" id="" class="form-control" >
+            {% for c in cities %}
+                {% set lower = c.lower().replace('-',' ').replace('.','') %}
+                {% if lower == ipcity %}
+                    <option value="{{lower}}" selected="selected">{{c}}</option>
+                {% else %}
+                    <option value="{{lower}}">{{c}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+
+            <pre>Search:</pre>
+            <input type="text" name="search_query">
+
+            <pre>Stores:</pre>
+            {% for store in stores %}
+                <pre>{{store}}  :</pre>
+                <input type="checkbox" name="has_{{store}}" checked>
+            {% endfor %}
+
+            <pre>Categories:</pre>
+            {% for cat in categories %}
+                <pre>{{cat}}  :</pre>
+                <input type="checkbox" name="has_{{cat}}" checked>
+            {% endfor %}
+
+            <button type="submit" formethod="POST">Apply</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
     <div class="nav-container">
         <nav class="navbar">
             <a id="navbar-logo" href="/">grocery buddy {{city}}</a>

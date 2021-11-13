@@ -377,6 +377,25 @@ postal_codes = {
     'thunder-bay': 'P7C1A1'
 }
 
+cities_formatted = {
+    'Kingston',
+    'Guelph',
+    'Ottawa',
+    'Smiths Falls',
+    'Cornwall',
+    'Mississuaga',
+    'Richmond Hill',
+    'Ajax',
+    'Toronto',
+    'Scarborough',
+    'Etobicoke',
+    'London',
+    'Waterloo',
+    'Kitchener',
+    'Sault Ste. Marie',
+    'Thunder Bay'
+}
+
 '''
 postal_codes = {
     'Kingston': 'K7L3Y2'

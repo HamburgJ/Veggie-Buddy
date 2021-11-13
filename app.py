@@ -11,33 +11,76 @@ from constants import *
 app = Flask(__name__)
 
 def get_location():
+    if request.method == 'POST':
+        return request.form.get('city_select')
+
     arg_location = request.args.get('location')
     if arg_location is not None:
         return arg_location
-
+    return 'kingston'
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     json = r.json()
     client_location = json['city']
     city = client_location.lower().replace(' ','-').replace('.','')
 
-    return city
-    
+    return city 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
-    city = get_location()
+    mongo_search = {}
+    mongo_sort = {}
 
-    if not city in postal_codes.keys():
-        city = 'kingston'
+    if request.method == 'POST':
+        search = request.form.get('search_query')
+        mongo_search = [{ 
+            '$text': {
+                '$search': search 
+            } 
+        }, { 
+            'score': { 
+                '$meta': "textScore" 
+            }
+        }]   
+        mongo_sort = { 
+            'score': { 
+                '$meta': "textScore" 
+            }
+        }
+        stores = []
+        for store in websites.keys():
+            storeData = request.form.get('has_{}'.format(store))
+            if storeData is None:
+                continue
+            if not storeData == 'on':
+                continue
+            stores.append(store)
+        
+        categories = []
+        category_list =  list(set(category_dict.values()))
+        for category in category_list:
+            categoryData = request.form.get('has_{}'.format(category))
+            if categoryData is None:
+                continue
+            if not categoryData == 'on':
+                continue
+            categories.append(category)
+
+        print(categories)
+
+    city = get_location()
 
     # Get data from MongoDB
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db[city]
 
-    df = pd.DataFrame(list(collection.find()))
+    df = pd.DataFrame(list(collection.find(*mongo_search).sort(mongo_sort)))
+
+    ipcity = 'guelph'
+
+    #df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
@@ -57,9 +100,21 @@ def home():
 
     row_datas = [[list(d.values.tolist()) for d in df] for df in dfs]
 
-    print('Success! location: {}'.format(city))
-    return render_template('main.html', row_datas=row_datas, column_names=df.columns.tolist(),
-                           link_column="image", zip=zip, city=city)
+    city_stores = list(set(df['store']))
+    categories = list(set(category_dict.values()))
+    kwargs = {
+        'row_datas': row_datas,
+        'column_names': df.columns.tolist(),
+        'link_column': "image",
+        'zip': zip, 
+        'city': city, 
+        'ipcity': ipcity, 
+        'cities': cities_formatted,
+        'stores': city_stores,
+        'categories': categories
+    }
+
+    return render_template('main.html', **kwargs)
 
 app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
 app_server.serve_forever()
