@@ -8,13 +8,14 @@ import os
 from static_data import *
 from constants import *
 from functions import has_word
+import sys
 
 app = Flask(__name__)
 
 def get_location():
     if request.method == 'POST':
-        print(request.form.get('city_select').lower().replace(' ', '-').replace('.',' '))
-        return request.form.get('city_select').replace(' ', '-').replace('.',' ')
+        print(request.form.get('city_select').lower().replace(" ", "-").replace(".",""))
+        return request.form.get('city_select').lower().replace(" ", "-").replace(".","")
 
     arg_location = request.args.get('location')
     if arg_location is not None:
@@ -54,6 +55,7 @@ def home():
             categories.append(category)
 
     city = get_location()
+    city_formatted = cities_formatted_dict[city]
 
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
@@ -63,7 +65,7 @@ def home():
 
     ipcity = 'guelph'
 
-    #df = pd.DataFrame(list(data))
+    df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
@@ -111,7 +113,8 @@ def home():
         'stores': city_stores,
         'categories': categories,
         'message': message,
-        'seached': search
+        'seached': search,
+        'city_formatted': city_formatted
     }
 
     return render_template('main.html', **kwargs)

@@ -377,7 +377,7 @@ postal_codes = {
     'thunder-bay': 'P7C1A1'
 }
 
-cities_formatted = {
+cities_formatted = [
     'Kingston',
     'Guelph',
     'Ottawa',
@@ -394,6 +394,25 @@ cities_formatted = {
     'Kitchener',
     'Sault Ste. Marie',
     'Thunder Bay'
+]
+
+cities_formatted_dict = {
+    'kingston': 'Kingston',
+    'guelph': 'Guelph',
+    'ottawa': 'Ottawa',
+    'smiths-falls': 'Smiths Falls',
+    'cornwall': 'Cornwall',
+    'mississuaga': 'Mississuaga',
+    'richmond-hill': 'Richmond Hill',
+    'ajax': 'Ajax',
+    'toronto': 'Toronto',
+    'scarborough': 'Scarborough',
+    'etobicoke': 'Etobicoke',
+    'london': 'London',
+    'waterloo': 'Waterloo',
+    'kitchener': 'Kitchener',
+    'sault-ste-marie': 'Sault Ste. Marie',
+    'thunder-bay': 'Thunder Bay'
 }
 
 '''
