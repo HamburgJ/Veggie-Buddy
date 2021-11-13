@@ -45,13 +45,13 @@ function toggle(matchingAttribute) {
             <pre>Stores:</pre>
             {% for store in stores %}
                 <pre>{{store}}  :</pre>
-                <input type="checkbox" name="has_{{store}}" checked>
+                <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}');">
             {% endfor %}
 
             <pre>Categories:</pre>
             {% for cat in categories %}
                 <pre>{{cat}}  :</pre>
-                <input type="checkbox" name="has_{{cat}}" checked>
+                <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')>
             {% endfor %}
 
             <button type="submit" formethod="POST">Apply</button>
