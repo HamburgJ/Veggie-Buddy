@@ -28,58 +28,64 @@ def get_location():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    try:
-        mongo_search = {}
-        mongo_sort = {}
-        print('before post clause')
-        if request.method == 'POST':
-            search = request.form.get('search_query')
-            mongo_search = [{ 
-                '$text': {
-                    '$search': search 
-                } 
-            }, { 
-                'score': { 
-                    '$meta': "textScore" 
-                }
-            }]   
-            mongo_sort = { 
-                'score': { 
-                    '$meta': "textScore" 
-                }
+
+    mongo_search = {}
+    mongo_sort = {}
+    
+    if request.method == 'POST':
+        search = request.form.get('search_query')
+        mongo_search = [{ 
+            '$text': {
+                '$search': search 
+            } 
+        }, { 
+            'score': { 
+                '$meta': "textScore" 
             }
-            print('not json issue')
-            stores = []
-            for store in websites.keys():
-                storeData = request.form.get('has_{}'.format(store))
-                if storeData is None:
-                    continue
-                if not storeData == 'on':
-                    continue
-                stores.append(store)
-            
-            categories = []
-            category_list =  list(set(category_dict.values()))
-            for category in category_list:
-                categoryData = request.form.get('has_{}'.format(category))
-                if categoryData is None:
-                    continue
-                if not categoryData == 'on':
-                    continue
-                categories.append(category)
-
-            print(categories)
-
-        city = get_location()
-
+        }]   
+        mongo_sort = { 
+            'score': { 
+                '$meta': "textScore" 
+            }
+        }
+        print('not json issue')
+        stores = []
+        for store in websites.keys():
+            storeData = request.form.get('has_{}'.format(store))
+            if storeData is None:
+                continue
+            if not storeData == 'on':
+                continue
+            stores.append(store)
         
+        categories = []
+        category_list =  list(set(category_dict.values()))
+        for category in category_list:
+            categoryData = request.form.get('has_{}'.format(category))
+            if categoryData is None:
+                continue
+            if not categoryData == 'on':
+                continue
+            categories.append(category)
+
+        print(categories)
+
+    city = get_location()
+
+    try:    
         # Get data from MongoDB
         client =  MongoClient(os.environ['MONGODB_URI'])
         db = client['groceryDatabase']
         collection = db[city]
+        print('mongo_search: {}'.format(mongo_search))
+        print('mongo_sort: {}'.format(mongo_sort))
 
         df = pd.DataFrame(list(collection.find(*mongo_search).sort(mongo_sort)))
-        print('good')
+        print('search df {}'.format(df))
+        df = pd.DataFrame(list(collection.find(*mongo_search)))
+        print('non sort df: {}'.format(df))
+        df = pd.DataFrame(list(collection.find()))
+        print('regular df: {}'.format(df))
     except Exception as e:
         print(e)
 
