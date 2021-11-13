@@ -7,7 +7,7 @@
 </head>
 <body>
 <script language="javascript">
-function toggle(matchingAttribute) {
+function toggle(matchingAttribute, removeEmptyListings=false) {
     var divArray = document.getElementsByTagName("div");
     for(i=divArray.length-1; i>=0; i--) {
         if(divArray[i].id.match(matchingAttribute)) {
@@ -16,6 +16,23 @@ function toggle(matchingAttribute) {
             } else {
                 divArray[i].style.display = '';
             }
+        }
+    }
+    if (!removeEmptyListings) {
+        return
+    }
+    var cardArray = document.getElementsByClassName("card");
+    for(i=divArray.length-1; i>=0; i--) {
+        var storeArray = cardArray[i].getElementsByClassName("listing_container");
+        var isEmpty = true
+        for(j=storeArray.length-1; j>=0; j--) {
+            if(storeArray[j].style.display == '') {
+                isEmpty = false
+            }
+        }
+        
+        if (isEmpty) {
+            cardArray[i].style.display = 'none';
         }
     }
 } 
@@ -45,13 +62,13 @@ function toggle(matchingAttribute) {
             <pre>Stores:</pre>
             {% for store in stores %}
                 <pre>{{store}}  :</pre>
-                <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}');">
+                <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
             {% endfor %}
 
             <pre>Categories:</pre>
             {% for cat in categories %}
                 <pre>{{cat}}  :</pre>
-                <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')>
+                <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
             {% endfor %}
 
             <button type="submit" formethod="POST">Apply</button>
