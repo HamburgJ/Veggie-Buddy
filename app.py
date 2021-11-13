@@ -10,14 +10,24 @@ from constants import *
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
+def get_location():
+    arg_location = request.args.get('username')
+    if arg_location is not None:
+        return arg_location
 
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     json = r.json()
     client_location = json['city']
     city = client_location.lower().replace(' ','-').replace('.','')
+
+    return city
+    
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+
+    city = get_location()
 
     if not city in postal_codes.keys():
         city = 'kingston'
@@ -29,8 +39,6 @@ def home():
 
     df = pd.DataFrame(list(collection.find()))
 
-    print(df)
-
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
     df['price'] = [ str(x).replace("nan", "") for x in df['price']]
@@ -40,7 +48,7 @@ def home():
     colnum = 5
     dfs = [[] for x in range(colnum)]
     lengths = [0 for x in range(colnum)]
-    categories = [[] for x in range(len(items))]
+
     for i in range(0,len(items)):
         new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods'])
         insert = lengths.index(min(lengths))
