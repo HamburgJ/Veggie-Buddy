@@ -15,13 +15,9 @@ def home():
 
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
-    print(r)
     json = r.json()
-    print(json)
     client_location = json['city']
-    print(client_location)
     city = client_location.lower().replace(' ','-').replace('.','')
-    print(city)
 
     if not city in postal_codes.keys():
         city = 'kingston'
@@ -32,6 +28,8 @@ def home():
     collection = db[city]
 
     df = pd.DataFrame(list(collection.find()))
+
+    print(df)
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]

@@ -16,7 +16,6 @@ websites = {
     'T&T': 'https://flyers.loblaws.ca/flyers/tntsupermarket-dryrun/grid_view/650044',
     'Freshmart': 'https://flyers.loblaws.ca/flyers/freshmart-dryrun/grid_view/650044',
     'Independent': 'https://flyers.loblaws.ca/flyers/yourindependentgrocer-dryrun/grid_view/650044',
-    'Super C': 'https://ecirculaire.metro.ca/flyers/superc-flyer/grid_view/663149',
     'Extra Foods': 'https://flyers.loblaws.ca/flyers/extrafoods-dryrun/grid_view/650044',
     'Farm Boy': 'https://flyers.sobeys.com/flyers/farmboy-flyer/grid_view/656515',
     'Longos': 'https://flyers.sobeys.com/flyers/longos-flyer/grid_view/656515'
