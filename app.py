@@ -59,20 +59,6 @@ def home():
     collection = db[city]
 
     df = pd.DataFrame(list(collection.find()))
-    
-    
-    #Search
-    if not search is None:
-        drop_list = []
-        for i in range(len(df.index)):
-            if not has_word(df['name'][i], [search]):
-                drop_list.append(i)
-        
-        searched_df = df.drop(df.index[drop_list])
-        if len(searched_df.index) > 0:
-            df = searched_df
-        else:
-            message = 'search not found'
 
     ipcity = 'guelph'
 
@@ -87,6 +73,19 @@ def home():
     colnum = 5
     dfs = [[] for x in range(colnum)]
     lengths = [0 for x in range(colnum)]
+
+    #Search
+    if not search is None:
+        searched_items = []
+
+        for item in items:
+            if has_word(item, [search]):
+                searched_items.append(item)
+
+        if searched_items:
+            items = searched_items
+        else:
+            message = 'search not found'
 
     for i in range(0,len(items)):
         new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods'])
