@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import pandas as pd
 import random
+import requests
 import gevent.pywsgi
 import os
 from static_data import *
@@ -10,8 +11,17 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-
-    city = 'kingston'
+    print('1')
+    ip = request.environ['REMOTE_ADDR']
+    print('2')
+    r = requests.get('https://ipinfo.io/{}/json'.format(ip))
+    print('3')
+    json = r.json()
+    print('4')
+    client_location = json['city']
+    print('5')
+    city = client_location.lower().replace(' ','-').replace('.','')
+    print('6')
 
     # Get data from MongoDB
     client =  MongoClient(os.environ['MONGODB_URI'])
@@ -39,7 +49,7 @@ def home():
     row_datas = [[list(d.values.tolist()) for d in df] for df in dfs]
 
     return render_template('main.html', row_datas=row_datas, column_names=df.columns.tolist(),
-                           link_column="image", zip=zip)
+                           link_column="image", zip=zip, city=city)
 
 app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
 app_server.serve_forever()
