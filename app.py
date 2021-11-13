@@ -88,7 +88,20 @@ def home():
             items = searched_items
         else:
             message = 'search not found'
+    
+    no_store_items = []
+    for i in range(0,len(items)):
+        for store in stores:
+            store_match = df.loc[(df['item'] == items[i]) & (df['store'] == store)]
+            if len(store_match.index) > 0:
+                continue
+        no_store_items.append(items[i])
 
+    if len(items) > len(no_store_items):
+        items = [x for x in item if x not in no_store_items]
+    else:
+        message = 'search not found'
+        
     for i in range(0,len(items)):
         new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods'])
         insert = lengths.index(min(lengths))
