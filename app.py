@@ -48,7 +48,7 @@ def home():
                 '$meta': "textScore" 
             }
         }
-        print('not json issue')
+
         stores = []
         for store in websites.keys():
             storeData = request.form.get('has_{}'.format(store))
@@ -72,22 +72,14 @@ def home():
 
     city = get_location()
 
-    try:    
-        # Get data from MongoDB
-        client =  MongoClient(os.environ['MONGODB_URI'])
-        db = client['groceryDatabase']
-        collection = db[city]
-        print('mongo_search: {}'.format(mongo_search))
-        print('mongo_sort: {}'.format(mongo_sort))
 
-        df = pd.DataFrame(list(collection.find(*mongo_search).sort(mongo_sort)))
-        print('search df {}'.format(df))
-        df = pd.DataFrame(list(collection.find(*mongo_search)))
-        print('non sort df: {}'.format(df))
-        df = pd.DataFrame(list(collection.find()))
-        print('regular df: {}'.format(df))
-    except Exception as e:
-        print(e)
+    client =  MongoClient(os.environ['MONGODB_URI'])
+    db = client['groceryDatabase']
+    collection = db[city]
+    print('mongo_search: {}'.format(mongo_search))
+    print('mongo_sort: {}'.format(mongo_sort))
+
+    df = pd.DataFrame(list(collection.find()))
 
     ipcity = 'guelph'
 
