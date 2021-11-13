@@ -29,7 +29,7 @@ def get_location():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    search = None
+    search = ''
     if request.method == 'POST':
         search = request.form.get('search_query')
 
@@ -74,8 +74,10 @@ def home():
     dfs = [[] for x in range(colnum)]
     lengths = [0 for x in range(colnum)]
 
+    message = None
+
     #Search
-    if not search is None:
+    if not search == '':
         searched_items = []
 
         for item in items:
@@ -106,7 +108,9 @@ def home():
         'ipcity': ipcity, 
         'cities': cities_formatted,
         'stores': city_stores,
-        'categories': categories
+        'categories': categories,
+        'message': message,
+        'seached': search
     }
 
     return render_template('main.html', **kwargs)

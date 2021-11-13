@@ -26,6 +26,7 @@ function toggle(matchingAttribute) {
     <br>
     <br>
     <div class="wrapper">
+        {{message}}
         <form action='/' method='POST'>
             <select name="city_select" id="" class="form-control" >
             {% for c in cities %}
@@ -39,7 +40,7 @@ function toggle(matchingAttribute) {
             </select>
 
             <pre>Search:</pre>
-            <input type="text" name="search_query">
+            <input type="text" name="search_query" value="{{search}}">
 
             <pre>Stores:</pre>
             {% for store in stores %}
