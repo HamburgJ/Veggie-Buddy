@@ -11,7 +11,7 @@ from constants import *
 app = Flask(__name__)
 
 def get_location():
-    arg_location = request.args.get('username')
+    arg_location = request.args.get('location')
     if arg_location is not None:
         return arg_location
 
