@@ -23,11 +23,11 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
     }
     var cards = document.getElementsByClassName("card");
     var cardArray = [];
-    console.log('cards: ' + cards)
-    for (var i=0; i<divs.length; i++) {
+    console.log('cards: ' + cards);
+    for (var i=0; i<cards.length; i++) {
         cardArray.push(cards[i].innerHTML);
     }
-    console.logs('cardArray: ' + cardArray)
+    console.logs('cardArray: ' + cardArray);
     for(var i=divArray.length-1; i>=0; i--) {
         var storeArray = cardArray[i].getElementsByClassName("listing_container");
         var isEmpty = true
