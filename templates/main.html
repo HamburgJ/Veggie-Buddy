@@ -126,22 +126,24 @@ function toggle(matchingAttribute) {
                         <img src="{{ d[0][4] }}">
                     </div>
                     {% for row in d %}
-                        <div class='body'
-                        {% if row[11] == 'TRUE' %}
-                            id="{{ 'hiddenresult_' + row[0] }}"
-                        {% endif %}>
-                            <div class='item'
-                            {% if d[0] == row %}
-                                id="bestprice"
+                        <div class='listing_container' id='{{ row[3] }}'>
+                            <div class='body'
+                            {% if row[11] == 'TRUE' %}
+                                id="{{ 'hiddenresult_' + row[0] }}"
                             {% endif %}>
-                                <div class='texts'>
-                                    <div class='store'>{{ row[3] }}</div>
-                                    <div class='right'>
-                                        <div class='price'>{{ row[2] }}</div>
-                                        <div class='story'>{{ row[5] }}</div>
+                                <div class='item'
+                                {% if d[0] == row %}
+                                    id="bestprice"
+                                {% endif %}>
+                                    <div class='texts'>
+                                        <div class='store'>{{ row[3] }}</div>
+                                        <div class='right'>
+                                            <div class='price'>{{ row[2] }}</div>
+                                            <div class='story'>{{ row[5] }}</div>
+                                        </div>
                                     </div>
+                                    <div class='name'>{{ row[1] }}</div>
                                 </div>
-                                <div class='name'>{{ row[1] }}</div>
                             </div>
                         </div>
                     {% endfor %}
