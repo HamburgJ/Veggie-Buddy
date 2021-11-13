@@ -12,7 +12,29 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     ip = request.environ['REMOTE_ADDR']
+    print('ip')
     print(ip)
+    ip2 = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    print('ip2')  
+    print(ip2)
+    ip3 = request.remote_addr
+    print('ip3')
+    print(ip3)
+    ip4 = request.environ['HTTP_X_FORWARDED_FOR']
+    print('ip4')
+    print(ip4)
+    ip5 = request.environ.get('REMOTE_ADDR', request.remote_addr)  
+    print('ip5')
+    print(ip5)
+    proxy_data = request.headers['X-Forwarded-For']
+    print('proxy')
+    print(proxy_data)
+    print('ip_list')
+    ip_list = proxy_data.split(',')
+    print(ip_list)
+    user_ip = ip_list[0]
+    print('user_ip')
+    print(user_ip)
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     print(r)
     json = r.json()
