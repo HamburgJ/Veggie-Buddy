@@ -52,8 +52,6 @@ def home():
                 continue
             categories.append(category)
 
-        print(categories)
-
     city = get_location()
 
     client =  MongoClient(os.environ['MONGODB_URI'])
@@ -65,7 +63,12 @@ def home():
     
     #Search
     if not search is None:
-        df = df.drop(df[has_word(df['name'], search)].index)
+        searched_df = df.drop(df[has_word(df['name'], [search])].index)
+        if len(searched_df.index) > 0:
+            df = searched_df
+        else:
+            message = 'search not found'
+
     ipcity = 'guelph'
 
     #df = pd.DataFrame(list(data))
