@@ -7,6 +7,7 @@ import gevent.pywsgi
 import os
 from static_data import *
 from constants import *
+from functions import has_word
 
 app = Flask(__name__)
 
@@ -28,26 +29,9 @@ def get_location():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-
-    mongo_search = {}
-    mongo_sort = {}
-    
+    search = None
     if request.method == 'POST':
         search = request.form.get('search_query')
-        mongo_search = [{ 
-            '$text': {
-                '$search': search 
-            } 
-        }, { 
-            'score': { 
-                '$meta': "textScore" 
-            }
-        }]   
-        mongo_sort = { 
-            'score': { 
-                '$meta': "textScore" 
-            }
-        }
 
         stores = []
         for store in websites.keys():
@@ -72,15 +56,16 @@ def home():
 
     city = get_location()
 
-
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db[city]
-    print('mongo_search: {}'.format(mongo_search))
-    print('mongo_sort: {}'.format(mongo_sort))
 
     df = pd.DataFrame(list(collection.find()))
-
+    
+    
+    #Search
+    if not search is None:
+        df = df.drop(df[has_word(df.name, search)].index)
     ipcity = 'guelph'
 
     #df = pd.DataFrame(list(data))
