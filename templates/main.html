@@ -37,105 +37,70 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
         }
     }
 } 
+
+function toggleRefine() {
+    if(document.getElementById("sidebar").style.width == "0px") {
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("openbtn").style.margin = "0 250px";
+    } else {
+        document.getElementById("sidebar").style.width = 0;
+        document.getElementById("openbtn").style.margin = 0;
+    }
+}
+
 </script>
-    
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="wrapper">
-        {{message}}
-        <form action='/' method='POST'>
-            <select name="city_select" id="" class="form-control" >
-            {% for c in cities %}
-                {% if city_formatted == c %}
-                    <option value="{{c}}" selected="selected">{{c}}</option>
-                {% else %}
-                    <option value="{{c}}">{{c}}</option>
-                {% endif %}
-            {% endfor %}
-            </select>
-
-            <pre>Search:</pre>
-            <input type="text" name="search_query" value="{{search}}">
-
-            <pre>Stores:</pre>
-            {% for store in stores %}
-                <pre>{{store}}  :</pre>
-                <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
-            {% endfor %}
-
-            <pre>Categories:</pre>
-            {% for cat in categories %}
-                <pre>{{cat}}  :</pre>
-                <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
-            {% endfor %}
-
-            <button type="submit" formethod="POST">Apply</button>
-        </form>
-    </div>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     
     <div class="nav-container">
         <nav class="navbar">
-            <a id="navbar-logo" href="/">grocery buddy {{city}}</a>
-            <label class="checkbox-container">
-                <input type="checkbox" checked onClick="toggle('vegan');"></input>
-                <h3>Vegan Stuff  &#127793;</h3>
-            </label>
-            <label class="checkbox-container">
-                <input type="checkbox" checked onClick="toggle('produce');"></input>
-                <h3>Produce  &#127827;</h3>
-            </label>
-            <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('bakery');"></input>
-                <h3>Bakery  &#127838;</h3>
-            </label>
-            <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('meat');"></input>
-                <h3>Meat and Dairy  &#127830;</h3>
-            </label>
-            <label class="checkbox-container">
-                <input type="checkbox" onClick="toggle('other');"></input>
-                <h3>Pantry & Beyond  &#129387;</h3>
-            </label>
+            <a id="navbar-logo" href="/">grocery buddy</a>
+            <div class="wrapper">
+                <form action='/' method='POST'>
+                    <div class='select-wrapper'>
+                        <img id="search-img" src="{{ url_for('static',filename='images/search.png') }}">
+                        <input type="text" name="search_query" defa="{{search}}" placeholder="Search">
+                    </div>
+                    
+                    <div class='select-wrapper'>
+                        <h4>Location :</h4>
+                        <select name="city_select" id="" class="form-control" >
+                            {% for c in cities %}
+                                {% if city_formatted == c %}
+                                    <option value="{{c}}" selected="selected">{{c}}</option>
+                                {% else %}
+                                    <option value="{{c}}">{{c}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+        
+                    <button type="submit" formethod="POST">Apply</button>
+                </form>
+            </div>
         </nav>
     </div>
+    <br><br><br><br><br><br>
+    
+    <div class='sidebar' id='sidebar'>
+        <pre>Stores:</pre>
+        {% for store in stores %}
+            <pre>{{store}}  :</pre>
+            <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
+        {% endfor %}
+
+        <pre>Categories:</pre>
+        {% for cat in categories %}
+            <pre>{{cat}}  :</pre>
+            <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
+        {% endfor %}
+    </div>
+    <button class="openbtn" id="openbtn" onclick="toggleRefine()">&#9776; Open Sidebar</button>
     <div class="main">
+        {{message}}
         <div class="column-container">
             {% for df in row_datas %}
             <div class='column'>
                 {% for d in df %}
-                <div class ='card' 
-                {% if d[0][6] == 'produce' %}
-                    id='produce'
-                {% elif d[0][6] == 'meat' %}
-                    id='meat'
-                    style="display: none;"
-                {% elif d[0][6] == 'bakery' %}
-                    id='bakery'
-                    style="display: none;"
-                {% elif d[0][6] == 'vegan' %}
-                    id='vegan'
-                {% else %}
-                    id='other'
-                    style="display: none;"
-                {% endif %}>
+                <div class ='card' id='{{d[0][6]}}'>
                     <div class='top'>
                         <div class='title'>
                             {{ d[0][0] }}

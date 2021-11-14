@@ -9,7 +9,7 @@ canadian superstore finder
 alphabetize cities
 
 Frontend:
--implement apply button
+-checkboxes
 -css
 -sort by priace?
 -session

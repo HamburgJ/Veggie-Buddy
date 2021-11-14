@@ -94,7 +94,7 @@ img {
 .nav-container {
     width: 100%;
     background-color: white;
-    height:70px;
+    height:55px;
     position: fixed;
     top: 0;
 }
@@ -162,10 +162,8 @@ input[type='checkbox']:checked {
     cursor:pointer;
 }
 .navbar {
-    align-items: left;
-    height: 70px;
-    line-height:70px;
-    justify-content: space-between;
+    height: 55px;
+    line-height:55px;
     display: flex;
     margin-left: 1vw;
     padding-right: 1vw;
@@ -176,10 +174,10 @@ a {
     display: flex;
     justify-content: left;
     align-items: center;
-    height: 60px;
+    height: 50px;
     margin-right: 0.5vw;
     cursor:pointer;
-    font-size:4vw;
+    font-size:3.5vw;
     text-decoration: none;
     font-family: 'Inconsolata', monospace;
     font-weight:bolder;
@@ -218,11 +216,115 @@ body {
 }
 
 .wrapper{
-    width:200px;
-    padding:20px;
-    height: 150px;
+    padding:0px;
+    height: 50%;
+    width: 100%;
+    margin: auto;
 }
 
 form {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
 }
+
+select {
+    height: 100%;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bolder;
+    border-color: black;
+    border-radius: 1000px;
+    padding: 0px 10px;
+    padding: 2px;
+    font-size: 2vh;
+}
+
+img {
+    padding: 0;
+}
+
+.select-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+h4 {
+    font-family: 'Inconsolata', monospace;
+    font-weight: bolder;
+    margin-right: 20px;
+    margin-left: -70px;
+    font-size: 3vh;
+}
+
+#search-img {
+    height: 100%;
+    margin: auto 10px;
+}
+
+input[type="text"] {
+    border: none;
+    border-color: transparent;
+    outline: none;
+    background: linear-gradient(#000, #000) center bottom 5px /calc(100% - 10px) 1px no-repeat;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bolder;
+    padding: 10px;
+    width: 400px;
+    font-size: 3.5vh;
+}
+/*yeah yeah */
+button {
+    background-color: lightgray;
+    border-color: lightgray;
+    height: 140%;
+    width: 12%;
+    border-radius: 1000px;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bolder;
+}
+
+button:hover {
+    background-color: #b0b0b0;
+}
+
+.sidebar {
+    margin-top: 55px;
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  }
+
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: fixed;
+    height: 50px;
+    transition: 0.5s;
+  }
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }

@@ -8,7 +8,6 @@ import os
 from static_data import *
 from constants import *
 from functions import has_word
-import sys
 
 app = Flask(__name__)
 
@@ -20,13 +19,14 @@ def get_location():
     arg_location = request.args.get('location')
     if arg_location is not None:
         return arg_location
-
+    return 'kingston'
+    '''
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     json = r.json()
     client_location = json['city']
     city = client_location.lower().replace(' ','-').replace('.','')
-
+    '''
     return city 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -35,34 +35,16 @@ def home():
     if request.method == 'POST':
         search = request.form.get('search_query')
 
-        stores = []
-        for store in websites.keys():
-            storeData = request.form.get('has_{}'.format(store))
-            if storeData is None:
-                continue
-            if not storeData == 'on':
-                continue
-            stores.append(store)
-        
-        categories = []
-        category_list =  list(set(category_dict.values()))
-        for category in category_list:
-            categoryData = request.form.get('has_{}'.format(category))
-            if categoryData is None:
-                continue
-            if not categoryData == 'on':
-                continue
-            categories.append(category)
-
     city = get_location()
     city_formatted = cities_formatted_dict[city]
 
+    '''
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db[city]
 
     df = pd.DataFrame(list(collection.find()))
-
+    '''
     ipcity = 'guelph'
 
     df = pd.DataFrame(list(data))
@@ -119,5 +101,5 @@ def home():
 
     return render_template('main.html', **kwargs)
 
-app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
-app_server.serve_forever()
+#app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
+#app_server.serve_forever()
