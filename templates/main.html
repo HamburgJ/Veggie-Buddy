@@ -39,12 +39,17 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
 } 
 
 function toggleRefine() {
-    if(document.getElementById("sidebar").style.width == "0px") {
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("openbtn").style.margin = "0 250px";
+    var left = document.getElementById("sidebar").style.left
+    console.log('sidebar left: ' + document.getElementById("sidebar").style.left)
+    console.log('openbtn left: ' + document.getElementById("openbtn").style.left)
+    if(left == -20 || left == "-20px" || left == "-20") {
+        document.getElementById("sidebar").style.left = '-280px';
+        document.getElementById("openbtn").style.left = '-175px';
+        document.getElementById("openbtn").innerText = "> Refine";
     } else {
-        document.getElementById("sidebar").style.width = 0;
-        document.getElementById("openbtn").style.margin = 0;
+        document.getElementById("sidebar").style.left = "-20px";
+        document.getElementById("openbtn").style.left = "75px";
+        document.getElementById("openbtn").innerText = "< Refine";
     }
 }
 
@@ -80,20 +85,27 @@ function toggleRefine() {
     </div>
     <br><br><br><br><br><br>
     
-    <div class='sidebar' id='sidebar'>
-        <pre>Stores:</pre>
-        {% for store in stores %}
-            <pre>{{store}}  :</pre>
-            <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
-        {% endfor %}
-
-        <pre>Categories:</pre>
-        {% for cat in categories %}
-            <pre>{{cat}}  :</pre>
-            <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
-        {% endfor %}
+    <div class='sidebar' id='sidebar' style='left: -280px'>
+        <div class='category-buttons'>
+            <h5>Categories:</h5>
+            {% for cat in categories %}
+                <label class='refinebtn'>
+                    <h6>{{cat}}</h6>
+                    <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
+                </label>
+            {% endfor %}
+        </div>
+        <div id='store-buttons'>
+            <h5>Stores:</h5>
+            {% for store in stores %}
+                <label class='refinebtn'>
+                    <h6>{{store}}</h6>
+                    <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
+                </label>
+            {% endfor %}
+        </div>
     </div>
-    <button class="openbtn" id="openbtn" onclick="toggleRefine()">&#9776; Open Sidebar</button>
+    <button class="openbtn" id="openbtn" onclick="toggleRefine()" style='left: -175px'>> Refine</button>
     <div class="main">
         {{message}}
         <div class="column-container">

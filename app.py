@@ -19,14 +19,13 @@ def get_location():
     arg_location = request.args.get('location')
     if arg_location is not None:
         return arg_location
-    return 'kingston'
-    '''
+
     ip = request.environ['HTTP_X_FORWARDED_FOR']
     r = requests.get('https://ipinfo.io/{}/json'.format(ip))
     json = r.json()
     client_location = json['city']
     city = client_location.lower().replace(' ','-').replace('.','')
-    '''
+    
     return city 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,16 +37,13 @@ def home():
     city = get_location()
     city_formatted = cities_formatted_dict[city]
 
-    '''
     client =  MongoClient(os.environ['MONGODB_URI'])
     db = client['groceryDatabase']
     collection = db[city]
 
     df = pd.DataFrame(list(collection.find()))
-    '''
-    ipcity = 'guelph'
 
-    df = pd.DataFrame(list(data))
+    #df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
@@ -89,8 +85,7 @@ def home():
         'column_names': df.columns.tolist(),
         'link_column': "image",
         'zip': zip, 
-        'city': city, 
-        'ipcity': ipcity, 
+        'city': city,  
         'cities': cities_formatted,
         'stores': city_stores,
         'categories': categories,
@@ -101,5 +96,5 @@ def home():
 
     return render_template('main.html', **kwargs)
 
-#app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
-#app_server.serve_forever()
+app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
+app_server.serve_forever()
