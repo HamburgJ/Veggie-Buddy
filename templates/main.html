@@ -7,20 +7,28 @@
 </head>
 <body>
 <script language="javascript">
-function toggle(matchingAttribute, removeEmptyListings=false) {
+function toggle(matchingAttribute, toggleStore=false) {
     var divArray = document.getElementsByTagName("div");
     for(var i=divArray.length-1; i>=0; i--) {
         if(divArray[i].id.match(matchingAttribute)) {
             if(divArray[i].style.display != 'none') {
                 divArray[i].style.display = 'none';
+                if (toggleStore) {
+                    divArray[i].storeHide = 'true';
+                } else {
+                    divArray[i].categoryHide = 'true';
+                }
             } else {
                 divArray[i].style.display = '';
+                if (toggleStore) {
+                    divArray[i].storeHide = 'false';
+                } else {
+                    divArray[i].categoryHide = 'false';
+                }
             }
         }
     }
-    if (!removeEmptyListings) {
-        return
-    }
+
     var cardArray = document.getElementsByClassName("card");
     for(var i=cardArray.length-1; i>=0; i--) {
         var storeArray = cardArray[i].getElementsByClassName("listing_container");
@@ -28,12 +36,25 @@ function toggle(matchingAttribute, removeEmptyListings=false) {
         for(j=storeArray.length-1; j>=0; j--) {
             if(storeArray[j].style.display == '') {
                 isEmpty = false
-                cardArray[i].style.display = '';
             }
         }
         
         if (isEmpty) {
             cardArray[i].style.display = 'none';
+            cardArray[i].storeHide = 'true';
+        } else if (toggleStore) {
+            cardArray[i].style.display = '';
+            cardArray[i].storeHide = 'false';
+        }
+    }
+
+    for(var i=divArray.length-1; i>=0; i--) {
+        if(divArray[i].id.match(matchingAttribute)) {
+            if (divArray[i].categoryHide == 'true' || divArray[i].storeHide == 'true') {
+                divArray[i].style.display = 'none';
+            } else {
+                divArray[i].style.display = '';
+            }
         }
     }
 } 
@@ -62,7 +83,7 @@ function toggleRefine() {
                 <form action='/' method='POST'>
                     <div class='select-wrapper'>
                         <img id="search-img" src="{{ url_for('static',filename='images/search.png') }}">
-                        <input type="text" name="search_query" defa="{{search}}" placeholder="Search">
+                        <input type="text" name="search_query" value="{{searched}}" placeholder="Search">
                     </div>
                     
                     <div class='select-wrapper'>
@@ -83,8 +104,6 @@ function toggleRefine() {
             </div>
         </nav>
     </div>
-    <br><br><br><br><br><br>
-    
     <div class='sidebar' id='sidebar' style='left: -280px'>
         <div class='category-buttons'>
             <h5>Categories:</h5>
@@ -106,8 +125,12 @@ function toggleRefine() {
         </div>
     </div>
     <button class="openbtn" id="openbtn" onclick="toggleRefine()" style='left: -175px'>> Refine</button>
+    {% if message != None %}
+        <div class='message'>
+            {{message}}
+        </div>
+    {% endif %}
     <div class="main">
-        {{message}}
         <div class="column-container">
             {% for df in row_datas %}
             <div class='column'>
@@ -120,7 +143,7 @@ function toggleRefine() {
                         <img src="{{ d[0][4] }}">
                     </div>
                     {% for row in d %}
-                        <div class='listing_container' id='{{ row[3] }}'>
+                        <div class='listing_container' id='{{ row[3] }}' storeHide = 'false' categoryHide = 'false'>
                             <div class='body'
                             {% if row[11] == 'TRUE' %}
                                 id="{{ 'hiddenresult_' + row[0] }}"

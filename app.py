@@ -8,6 +8,7 @@ import os
 from static_data import *
 from constants import *
 from functions import has_word
+import re
 
 app = Flask(__name__)
 
@@ -25,7 +26,7 @@ def get_location():
     json = r.json()
     client_location = json['city']
     city = client_location.lower().replace(' ','-').replace('.','')
-    
+
     return city 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -33,6 +34,8 @@ def home():
     search = ''
     if request.method == 'POST':
         search = request.form.get('search_query')
+        search = re.sub('[^A-Z]+', '', search, 0, re.I)
+        print(search)
 
     city = get_location()
     city_formatted = cities_formatted_dict[city]
@@ -43,7 +46,7 @@ def home():
 
     df = pd.DataFrame(list(collection.find()))
 
-    #df = pd.DataFrame(list(data))
+    df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
@@ -68,10 +71,11 @@ def home():
         if not searched_items == []:
             items = searched_items
         else:
-            message = 'search not found'
+            message = 'No results found'
 
     for i in range(0,len(items)):
-        new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods'])
+        new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods', 'real price'])
+        new_df = new_df.sort_values('real price')
         insert = lengths.index(min(lengths))
         lengths[insert] = lengths[insert] + 3 + len(new_df.index)
         dfs[insert].append(new_df)
@@ -90,7 +94,7 @@ def home():
         'stores': city_stores,
         'categories': categories,
         'message': message,
-        'seached': search,
+        'searched': search,
         'city_formatted': city_formatted
     }
 
