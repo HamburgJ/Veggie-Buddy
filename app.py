@@ -46,7 +46,7 @@ def home():
 
     df = pd.DataFrame(list(collection.find()))
 
-    df = pd.DataFrame(list(data))
+    #df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]
