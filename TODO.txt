@@ -2,7 +2,6 @@ TODO:
 
 Backend:
 Setup categories
-X results found, back button
 add emojis to buttons
 category initially sort by produce first
 format for different screens

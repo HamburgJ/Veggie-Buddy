@@ -70,8 +70,6 @@ def home():
 
         if not searched_items == []:
             items = searched_items
-        else:
-            message = 'No results found'
 
     for i in range(0,len(items)):
         new_df = pd.DataFrame(df.loc[df['item'] == items[i]], columns=['item','name','price','store','image','story','category','vegan','foods', 'real price'])
@@ -79,6 +77,15 @@ def home():
         insert = lengths.index(min(lengths))
         lengths[insert] = lengths[insert] + 3 + len(new_df.index)
         dfs[insert].append(new_df)
+
+    if not search == '':
+        num_results = sum([len(x) for x in dfs])
+        if num_results == 0:
+            message = 'No results found'
+        elif num_results == 1:
+            message = '1 result found'
+        else:
+            message = '{} results found'.format(num_results)
 
     row_datas = [[list(d.values.tolist()) for d in df] for df in dfs]
 

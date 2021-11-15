@@ -12,14 +12,12 @@ function toggle(matchingAttribute, toggleStore=false) {
     for(var i=divArray.length-1; i>=0; i--) {
         if(divArray[i].id.match(matchingAttribute)) {
             if(divArray[i].style.display != 'none') {
-                divArray[i].style.display = 'none';
                 if (toggleStore) {
                     divArray[i].storeHide = 'true';
                 } else {
                     divArray[i].categoryHide = 'true';
                 }
             } else {
-                divArray[i].style.display = '';
                 if (toggleStore) {
                     divArray[i].storeHide = 'false';
                 } else {
@@ -41,10 +39,8 @@ function toggle(matchingAttribute, toggleStore=false) {
         
         if (isEmpty) {
             cardArray[i].style.display = 'none';
-            cardArray[i].storeHide = 'true';
-        } else if (toggleStore) {
+        } else {
             cardArray[i].style.display = '';
-            cardArray[i].storeHide = 'false';
         }
     }
 
@@ -52,9 +48,7 @@ function toggle(matchingAttribute, toggleStore=false) {
         if(divArray[i].id.match(matchingAttribute)) {
             if (divArray[i].categoryHide == 'true' || divArray[i].storeHide == 'true') {
                 divArray[i].style.display = 'none';
-            } else {
-                divArray[i].style.display = '';
-            }
+            } 
         }
     }
 } 
@@ -72,6 +66,10 @@ function toggleRefine() {
         document.getElementById("openbtn").style.left = "75px";
         document.getElementById("openbtn").innerText = "< Refine";
     }
+}
+
+function goBack() {
+    window.history.back();
 }
 
 </script>
@@ -129,6 +127,9 @@ function toggleRefine() {
         <div class='message'>
             {{message}}
         </div>
+        {% if message != 'No results found' %}
+            <button class="backButton" onClick="goBack()">Back</button>
+        {% endif %}
     {% endif %}
     <div class="main">
         <div class="column-container">
