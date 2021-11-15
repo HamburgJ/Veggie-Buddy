@@ -144,6 +144,7 @@ input[type='checkbox'] {
     vertical-align: middle;
     transform: scale(1.7);
     margin: auto 20px auto 0;
+    text-transform: lowercase;
 }
 input[type='checkbox']:checked {
     background: #abd;
@@ -343,9 +344,9 @@ label {
     background-color: lightgray;
     border-radius: 15px;
     margin: 5px 5px 5px 0px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
+    border-color: lightgray;
+    border-width: 2px;
+    border-style: outset;
     word-wrap: break-word;
 }
 

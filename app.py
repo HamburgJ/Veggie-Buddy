@@ -33,7 +33,7 @@ def get_location():
 def home():
     search = ''
     if request.method == 'POST':
-        search = request.form.get('search_query')
+        search = request.form.get('search_query').lower()
         search = re.sub('[^A-Z]+', '', search, 0, re.I)
         print(search)
 

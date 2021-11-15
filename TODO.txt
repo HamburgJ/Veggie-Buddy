@@ -1,8 +1,17 @@
 TODO:
 
 Backend:
-
 Setup categories
+X results found, back button
+add emojis to buttons
+category initially sort by produce first
+format for different screens
+fix buttons
+city select scroll
+text explaining what grocery buddy is
+search with refine filters
+better search - berries should show strawberries, blue berries, etc
+refine on right side so it doesnt block single result
 full city list
 canadian superstore finder
 alphabetize cities
@@ -11,3 +20,4 @@ Sifting entries
 Other:
 -loading glitch
 -android
+-on android include shopping list seperated by stores
