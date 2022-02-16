@@ -1,7 +1,7 @@
 # Veggie Buddy
 
-Veggie Buddy is a website that compares different grocery item prices in Kingston, Ontario. It periodically scrapes local grocery flyers, then aggregates and sorts items intelligently for easy browsing.
+Veggie Buddy is a webapp that scrapes and compares local grocery flyers to find the best food deals. It detects different grocery items by scraping flyers, then aggregates and sorts them intelligently for easy browsing. Built with Python back-to-front with MongoDB.
 
 You can use it at https://veggie-buddy.herokuapp.com/
 
-![alt text](https://joshuahamburger.me/images/veggiebuddy.png)
+![alt text](https://joshuahamburger.software/images/veggiebuddy.png)
