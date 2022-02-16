@@ -11,23 +11,6 @@ import re
 
 app = Flask(__name__)
 
-def get_location():
-    if request.method == 'POST':
-        print(request.form.get('city_select').lower().replace(" ", "-").replace(".",""))
-        return request.form.get('city_select').lower().replace(" ", "-").replace(".","")
-
-    arg_location = request.args.get('location')
-    if arg_location is not None:
-        return arg_location
-
-    ip = request.environ['HTTP_X_FORWARDED_FOR']
-    r = requests.get('https://ipinfo.io/{}/json'.format(ip))
-    json = r.json()
-    client_location = json['city']
-    city = client_location.lower().replace(' ','-').replace('.','')
-
-    return city 
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
     search = ''
@@ -36,7 +19,7 @@ def home():
         search = re.sub('[^A-Z]+', '', search, 0, re.I)
         print(search)
 
-    city = get_location()
+    city = 'kingston'
     city_formatted = cities_formatted_dict[city]
 
     client =  MongoClient(os.environ['MONGODB_URI'])
