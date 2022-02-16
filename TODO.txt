@@ -1,28 +1,17 @@
 TODO:
 
-Data updater:
-=segment into collections (by location)
-=create item object instead of listing
-=remove unused Data
-=streamline for all grocery chains
-=remove magic strings and make more helper functions
-
-
-
-=download database as json
-
-
-Frontend:
-=get ip geo location, match to city if possible
-=location selection popup if not a city in list
-=search Data
-=stores selection
-=food categories
-=sort by
-
-
-Other:
-loading glitch?
--email list by city?
--good deal button (1 like per ip) - then can sort by highest likes
--android
+Backend:
+Setup categories
+add emojis to buttons
+category initially sort by produce first
+format for different screens
+fix buttons
+city select scroll
+text explaining what grocery buddy is
+search with refine filters
+better search - berries should show strawberries, blue berries, etc
+refine on right side so it doesnt block single result
+full city list
+canadian superstore finder
+alphabetize cities
+Sifting entries
