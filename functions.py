@@ -162,11 +162,6 @@ def process(df):
                     has_word(name, [lemmatizer.lemmatize(food)])):
                     df['foods'][i].append(food)
                     df['food categories'][i].append('produce')
-            
-            for food, dictionary in complex_match_produce.items():
-                if has_word(name, dictionary['positive'], dictionary['negative']):
-                    df['foods'][i].append(food)
-                    df['food categories'][i].append('produce')
 
         for food, dictionary in complex_match_foods.items():
             if has_word(name, dictionary['positive'], dictionary['negative']):
