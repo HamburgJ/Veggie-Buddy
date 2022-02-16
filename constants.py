@@ -355,7 +355,8 @@ produce_keywords = [
     'ginger',
     'garlic',
     'radishes',
-    'spinach'
+    'spinach',
+    'tomato'
 ]
 
 '''
