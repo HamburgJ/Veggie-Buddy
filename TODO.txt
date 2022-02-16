@@ -15,8 +15,3 @@ full city list
 canadian superstore finder
 alphabetize cities
 Sifting entries
-
-Other:
--loading glitch
--android
--on android include shopping list seperated by stores

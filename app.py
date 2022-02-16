@@ -5,7 +5,6 @@ import random
 import requests
 import gevent.pywsgi
 import os
-from static_data import *
 from constants import *
 from functions import has_word
 import re
@@ -45,8 +44,6 @@ def home():
     collection = db[city]
 
     df = pd.DataFrame(list(collection.find()))
-
-    #df = pd.DataFrame(list(data))
 
     # Fix NaN data
     df['story'] = [ str(x).replace("nan", "") for x in df['story']]

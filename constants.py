@@ -411,45 +411,8 @@ postal_codes = {
 '''
 
 postal_codes = {
-    'barrie': 'L4M1A1',
-    'belleville': 'K8N1A1',
-    'brampton': 'L6Y1A1',
-    'brantford': 'N3T1A1',
-    'burlington': 'L7S1A1',
-    'cambridge': 'N1R1A1',
-    'cornwall': 'K6H1A1',
-    'etobicoke': 'M8Z1A1',
-    'guelph': 'N1H2L8',
-    'hamilton': 'L8R1A1',
     'kingston': 'K7L1A1',
-    'kitchener': 'N2G1A1',
-    'london': 'N6A1A1',
-    'markham': 'L6G1A1',
-    'mississuaga': 'L5A1A1',
-    'niagara-falls': 'L2G1A1',
-    'orilla': 'L3V1A1',
-    'oshawa': 'L1J1A1',
-    'ottawa': 'K1P1A1',
-    'owen-sound': 'N4K1A1',
-    'pembroke': 'K8A1A1',
-    'peterborough': 'K9J1A1',
-    'pickering': 'L1V1A1',
-    'picton': 'K0K1A1',
-    'richmond-hill': 'L4C1A1',
-    'sarnia': 'N7T1A1',
-    'sault-ste-marie': 'P6B1A1',
-    'scarborough': 'M1H1A1',
-    'st-catharines': 'L2R1A1',
-    'st-thomas': 'N5P1A1',
-    'stratford': 'N5A1A1',
-    'sudbury': 'P3E1A1',
-    'thunder-bay': 'P7B1A1',
-    'timmins': 'P4N1A1',
-    'toronto': 'M5A1A1',
-    'vaughan': 'L6A1A1',
-    'waterloo': 'N2L1A1',
-    'windsor': 'N9B1A1',
-    'woodstock': 'N4S1A1'
+    'waterloo': 'N2L1A1'
 }
 
 category_dict = {
