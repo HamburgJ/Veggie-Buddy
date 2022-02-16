@@ -7,48 +7,15 @@
 </head>
 <body>
 <script language="javascript">
-function toggle(matchingAttribute, toggleStore=false) {
-    var divArray = document.getElementsByTagName("div");
+function toggle(matchingAttribute) {
+    var divArray = document.getElementsByClassName("card");
     for(var i=divArray.length-1; i>=0; i--) {
         if(divArray[i].id.match(matchingAttribute)) {
             if(divArray[i].style.display != 'none') {
-                if (toggleStore) {
-                    divArray[i].storeHide = 'true';
-                } else {
-                    divArray[i].categoryHide = 'true';
-                }
-            } else {
-                if (toggleStore) {
-                    divArray[i].storeHide = 'false';
-                } else {
-                    divArray[i].categoryHide = 'false';
-                }
-            }
-        }
-    }
-
-    var cardArray = document.getElementsByClassName("card");
-    for(var i=cardArray.length-1; i>=0; i--) {
-        var storeArray = cardArray[i].getElementsByClassName("listing_container");
-        var isEmpty = true
-        for(j=storeArray.length-1; j>=0; j--) {
-            if(storeArray[j].style.display == '') {
-                isEmpty = false
-            }
-        }
-        
-        if (isEmpty) {
-            cardArray[i].style.display = 'none';
-        } else {
-            cardArray[i].style.display = '';
-        }
-    }
-
-    for(var i=divArray.length-1; i>=0; i--) {
-        if(divArray[i].id.match(matchingAttribute)) {
-            if (divArray[i].categoryHide == 'true' || divArray[i].storeHide == 'true') {
                 divArray[i].style.display = 'none';
-            } 
+            } else {
+                divArray[i].style.display = '';
+            }
         }
     }
 } 
@@ -72,11 +39,25 @@ function goBack() {
     window.history.back();
 }
 
+
+window.onload = function () {
+    toggle('produce');
+    toggle('vegan');
+    {% if is_search %}
+    toggle('meat');
+    toggle('dairy');
+    toggle('bakery');
+    toggle('snacks');
+    toggle('beverages');
+    toggle('other');
+    {% endif %}
+}
+
 </script>
     
     <div class="nav-container">
         <nav class="navbar">
-            <a id="navbar-logo" href="/">grocery buddy</a>
+            <a id="navbar-logo" href="/">veggie buddy</a>
             <div class="wrapper">
                 <form action='/' method='POST'>
                     <div class='select-wrapper'>
@@ -108,16 +89,12 @@ function goBack() {
             {% for cat in categories %}
                 <label class='refinebtn'>
                     <h6>{{cat}}</h6>
-                    <input type="checkbox" name="has_{{cat}}" checked onClick="toggle('{{ cat }}')">
-                </label>
-            {% endfor %}
-        </div>
-        <div id='store-buttons'>
-            <h5>Stores:</h5>
-            {% for store in stores %}
-                <label class='refinebtn'>
-                    <h6>{{store}}</h6>
-                    <input type="checkbox" name="has_{{store}}" checked onClick="toggle('{{ store }}', true);">
+                    <input type="checkbox" name="has_{{cat}}" onClick="toggle('{{ cat }}')" 
+                    {% if (cat == 'vegan' or cat == 'produce' or is_search) %}
+                        checked
+                    {% else %}
+                        unchecked
+                    {% endif %}>
                 </label>
             {% endfor %}
         </div>
@@ -127,16 +104,13 @@ function goBack() {
         <div class='message'>
             {{message}}
         </div>
-        {% if message != 'No results found' %}
-            <button class="backButton" onClick="goBack()">Back</button>
-        {% endif %}
     {% endif %}
     <div class="main">
         <div class="column-container">
             {% for df in row_datas %}
             <div class='column'>
                 {% for d in df %}
-                <div class ='card' id='{{d[0][6]}}'>
+                <div class ='card' id='{{d[0][6]}}' style="display:none">
                     <div class='top'>
                         <div class='title'>
                             {{ d[0][0] }}

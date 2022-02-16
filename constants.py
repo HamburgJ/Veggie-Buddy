@@ -358,6 +358,7 @@ produce_keywords = [
     'spinach'
 ]
 
+'''
 cities_formatted = [
     'Barrie',
     'Belleville',
@@ -399,16 +400,15 @@ cities_formatted = [
     'Windsor',
     'Woodstock'
 ]
+'''
+cities_formatted = [
+    'Kingston',
+    'Waterloo'
+]
 
 cities_formatted_dict = {}
 for i in cities_formatted:
     cities_formatted_dict[i.lower().replace(' ','-').replace('.', '')]=i
-
-'''
-postal_codes = {
-    'Kingston': 'K7L3Y2'
-}
-'''
 
 postal_codes = {
     'kingston': 'K7L1A1',
@@ -459,7 +459,59 @@ category_dict = {
     'freshfrozen': 'other',
     'vegan': 'vegan',
     'vegetarian': 'vegan',
-    'plantbased': 'vegan'
+    'plantbased': 'vegan',
+    'packaged meat': 'meat',
+    'beer and wine': 'beverages',
+    'deli & ready meals': 'meat',
+    'dairy & eggs': 'dairy',
+    'meat & seafood': 'meat',
+    'fruits & vegetables': 'produce',
+    'fruit and vegetables': 'produce',
+    'meat and deli': 'meat',
+    'dairy and cheese': 'dairy',
+    'fish and seafood': 'meat',
+    'bread and bakery products': 'bakery',
+    'frozen food': 'other',
+    'bread & bakery': 'bakery',
+    'dairy, eggs & cheese': 'dairy',
+    'condiments, spices & bake': 'other',
+    'grains, pasta & sides': 'other',
+    'breakfast & cereal': 'other',
+    'wine, beer and spirits': 'beverages',
+    'canned goods & soups': 'other',
+    'cookies, snacks & candy': 'other',
+    'frozen foods': 'other',
+    'fresh meat & deli': 'meat',
+    'snacks & beverage': 'beverages',
+    'appetizers - party pak': 'other',
+    'appetizers - shrimp ring': 'meat',
+    'butcher - other': 'meat',
+    'appetizers - other': 'other',
+    'desserts - too tall': 'other',
+    'prepared meals - 2lb meals': 'other',
+    'single serve - single serve entree': 'other',
+    'single serve - other': 'other',
+    'prepared meals - other': 'other',
+    'sides - all': 'other',
+    'dry goods - all': 'other',
+    'butcher - breaded chicken breasts': 'meat',
+    'seafood - other': 'meat',
+    'vegetables - all': 'produce',
+    'appetizers - italian style beef meatballs': 'meat',
+    'appetizers - wings': 'meat',
+    'desserts - other': 'other',
+    'desserts - dessert bars': 'other',
+    'adult beverage': 'beverages',
+    'canned foods': 'other',
+    'beer': 'beverages',
+    'prepared meals': 'other',
+    'processed meat': 'meat',
+    'core grocery': 'other',
+    'pasta & rice': 'other',
+    'sauces & rub': 'other',
+    'spreads/syrups': 'other',
+    'organic choices': 'other',
+    'desserts': 'other'
 }
 
 complex_match_produce = {
@@ -502,6 +554,7 @@ complex_match_produce = {
         ]
     }
 }
+
 complex_match_foods = {
     "cola": {
         "category": 'other',

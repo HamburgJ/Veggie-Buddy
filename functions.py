@@ -108,7 +108,6 @@ def process(df):
 
     df['category'] = categories
     df = df[df['category'] != 'delete']
-
     df.reset_index(inplace=True,drop=True)
     df.drop_duplicates(inplace=True, subset=['name','price','store','location'])
     df.reset_index(inplace=True,drop=True)
@@ -118,7 +117,6 @@ def process(df):
 
     # Sort to categories by keyword
     categories = df['category']
-
     for i in range(len(df.index)):
         for category, dictionary in keyword_categories.items():
             for keyword in dictionary:
@@ -126,13 +124,15 @@ def process(df):
                     categories[i] = category
 
     df['category'] = categories
+    df = df[df['category'] != 'delete']
+    df.reset_index(inplace=True,drop=True)
 
     # Fix pricing info
     prices = [0 for x in range(len(df.index))]
 
     for i in range(len(df.index)):
         string = df['price'][i]
-        deal = re.search("([0-9])\s?(?:\/|for)\s\$([0-9]+.[0-9][0-9])", string)
+        deal = re.search("(\d+)\s?(?:\/|for)\s\$(\d+.\d\d)", string)
         if deal:
             prices[i] = float(deal.group(2))/float(deal.group(1))
         else:
