@@ -91,5 +91,5 @@ def home():
 
     return render_template('main.html', **kwargs)
 
-#app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
-#app_server.serve_forever()
+app_server = gevent.pywsgi.WSGIServer(('0.0.0.0', int(os.environ.get("PORT", 5000))), app)
+app_server.serve_forever()
