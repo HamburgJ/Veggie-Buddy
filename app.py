@@ -65,7 +65,8 @@ def home():
     message = None
 
     #Search
-    if not search == '':
+    if is_search:
+        found_items = False
         searched_items = []
 
         for item in items:
@@ -74,6 +75,7 @@ def home():
 
         if not searched_items == []:
             items = searched_items
+            found_items = True
 
     df.sort_values(inplace=True, by=['real_price'])
 
@@ -83,9 +85,9 @@ def home():
         lengths[insert] = lengths[insert] + 3 + len(new_df.index)
         dfs[insert].append(new_df)
 
-    if not search == '':
+    if is_search:
         num_results = sum([len(x) for x in dfs])
-        if num_results == 0:
+        if not found_items:
             message = 'No results found'
         elif num_results == 1:
             message = '1 result found'
