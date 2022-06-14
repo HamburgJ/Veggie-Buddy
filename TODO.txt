@@ -1,5 +1,10 @@
 TODO:
 
+<<<<<<< Updated upstream
+=======
+sdfsdf
+ugjgkbkj
+>>>>>>> Stashed changes
 Backend:
 Setup categories
 add emojis to buttons
